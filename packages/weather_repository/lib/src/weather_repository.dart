@@ -16,9 +16,9 @@ class WeatherRepository {
       longitude: location.longitude,
     );
     return WeatherForRepository(
-      temperature: weather.temperature,
+      temperature: weather.current_weather.temperature,
       location: location.name,
-      condition: weather.weatherCode.toInt().toCondition,
+      condition: weather.current_weather.weathercode.toInt().toCondition,
     );
   }
 }
