@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:weather_repository/weather_repository.dart' hide Weather;
+import 'package:weather_repository/weather_repository.dart' hide WeatherForRepository;
 import 'package:weather_repository/weather_repository.dart'
     as weather_repository;
 
@@ -42,7 +42,7 @@ class Weather extends Equatable {
   factory Weather.fromJson(Map<String, dynamic> json) =>
       _$WeatherFromJson(json);
 
-  factory Weather.fromRepository(weather_repository.Weather weather) {
+  factory Weather.fromRepository(weather_repository.WeatherForRepository weather) {
     return Weather(
       condition: weather.condition,
       lastUpdated: DateTime.now(),

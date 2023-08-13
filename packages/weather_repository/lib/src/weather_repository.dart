@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:open_meteo_api/open_meteo_api.dart' hide Weather;
+import 'package:open_meteo_api/open_meteo_api.dart' hide WeatherEntity;
 import 'package:weather_repository/weather_repository.dart';
 
 class WeatherRepository {
@@ -9,13 +9,13 @@ class WeatherRepository {
 
   final OpenMeteoApiClient _weatherApiClient;
 
-  Future<Weather> getWeather(String city) async {
+  Future<WeatherForRepository> getWeather(String city) async {
     final location = await _weatherApiClient.locationSearch(city);
     final weather = await _weatherApiClient.getWeather(
       latitude: location.latitude,
       longitude: location.longitude,
     );
-    return Weather(
+    return WeatherForRepository(
       temperature: weather.temperature,
       location: location.name,
       condition: weather.weatherCode.toInt().toCondition,

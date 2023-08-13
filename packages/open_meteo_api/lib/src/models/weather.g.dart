@@ -8,11 +8,11 @@ part of 'weather.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Weather _$WeatherFromJson(Map<String, dynamic> json) => $checkedCreate(
+WeatherEntity _$WeatherFromJson(Map<String, dynamic> json) => $checkedCreate(
       'Weather',
       json,
       ($checkedConvert) {
-        final val = Weather(
+        final val = WeatherEntity(
           temperature:
               $checkedConvert('temperature', (v) => (v as num).toDouble()),
           weatherCode:

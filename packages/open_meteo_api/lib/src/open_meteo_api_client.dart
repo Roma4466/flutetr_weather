@@ -45,7 +45,7 @@ class OpenMeteoApiClient {
     return Location.fromJson(results.first as Map<String, dynamic>);
   }
 
-  Future<Weather> getWeather({
+  Future<WeatherEntity> getWeather({
     required double latitude,
     required double longitude,
   }) async {
@@ -69,6 +69,6 @@ class OpenMeteoApiClient {
 
     final weatherJson = bodyJson['current_weather'] as Map<String, dynamic>;
 
-    return Weather.fromJson(weatherJson);
+    return WeatherEntity.fromJson(weatherJson);
   }
 }

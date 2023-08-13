@@ -1,0 +1,1 @@
+export 'package:flutter_weather/settings/view/settings_page.dart';

@@ -1,0 +1,1 @@
+export 'package:flutter_weather/search/view/search_page.dart';

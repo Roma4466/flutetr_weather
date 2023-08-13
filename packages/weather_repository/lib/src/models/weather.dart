@@ -8,18 +8,33 @@ enum WeatherCondition {
   rainy,
   cloudy,
   snowy,
-  unknown,
+  unknown;
+
+  String get toEmoji {
+    switch (this) {
+      case WeatherCondition.clear:
+        return '☀️';
+      case WeatherCondition.rainy:
+        return '🌧️';
+      case WeatherCondition.cloudy:
+        return '☁️';
+      case WeatherCondition.snowy:
+        return '🌨️';
+      case WeatherCondition.unknown:
+        return '❓';
+    }
+  }
 }
 
 @JsonSerializable()
-class Weather extends Equatable {
-  const Weather({
+class WeatherForRepository extends Equatable {
+  const WeatherForRepository({
     required this.location,
     required this.temperature,
     required this.condition,
   });
 
-  factory Weather.fromJson(Map<String, dynamic> json) =>
+  factory WeatherForRepository.fromJson(Map<String, dynamic> json) =>
       _$WeatherFromJson(json);
 
   Map<String, dynamic> toJson() => _$WeatherToJson(this);
