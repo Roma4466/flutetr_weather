@@ -6,7 +6,7 @@ import 'package:flutter_weather/weather_pages/weather/weather.dart';
 import 'package:weather_repository/weather_repository.dart';
 
 class WeatherPage extends StatelessWidget {
-  const WeatherPage({Key? key});
+  const WeatherPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,21 +28,9 @@ class _WeatherViewState extends State<WeatherView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Flutter Weather'),
-      //   actions: [
-      //     IconButton(
-      //       icon: const Icon(Icons.settings),
-      //       onPressed: () {
-      //         Navigator.of(context).push<void>(
-      //           SettingsPage.route(
-      //             context.read<WeatherCubit>(),
-      //           ),
-      //         );
-      //       },
-      //     ),
-      //   ],
-      // ),
+      appBar: AppBar(
+        title: const Text('Flutter Weather'),
+      ),
       body: Center(
         child: BlocConsumer<WeatherCubit, WeatherState>(
           listener: (context, state) {
