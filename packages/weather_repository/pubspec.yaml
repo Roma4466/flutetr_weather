@@ -11,6 +11,8 @@ dependencies:
   json_annotation: ^4.6.0
   open_meteo_api:
     path: ../open_meteo_api
+  db:
+    path: ../db
 
 dev_dependencies:
   build_runner: ^2.0.0

@@ -1,13 +1,19 @@
 import 'dart:async';
 
-import 'package:open_meteo_api/open_meteo_api.dart' hide WeatherEntity;
+import 'package:db/db/db.dart';
+import 'package:db/db_provider.dart';
+import 'package:open_meteo_api/open_meteo_api.dart';
 import 'package:weather_repository/weather_repository.dart';
 
 class WeatherRepository {
   WeatherRepository({OpenMeteoApiClient? weatherApiClient})
-      : _weatherApiClient = weatherApiClient ?? OpenMeteoApiClient();
+      : _weatherApiClient = weatherApiClient ?? OpenMeteoApiClient(),
+        _dbProvider = DbProvider() {
+    _dbProvider.initializeDatabase();
+  }
 
   final OpenMeteoApiClient _weatherApiClient;
+  final DbProvider _dbProvider;
 
   Future<WeatherForRepository> getWeather(String city) async {
     final location = await _weatherApiClient.locationSearch(city);
@@ -15,10 +21,30 @@ class WeatherRepository {
       latitude: location.latitude,
       longitude: location.longitude,
     );
+
+    print('Weather_weather: $weather');
+    _dbProvider.createWeather(weather.toDb());
+
     return WeatherForRepository(
       temperature: weather.current_weather.temperature,
       location: location.name,
       condition: weather.current_weather.weathercode.toInt().toCondition,
+    );
+  }
+
+  Stream<List<WeatherForDB>> getWeathers() => _dbProvider.getWeathers();
+}
+
+extension on WeatherEntity {
+  WeatherForDB toDb() {
+    return WeatherForDB(
+      id: -1,
+      temperature: this.current_weather.temperature,
+      windspeed: this.current_weather.temperature,
+      winddirection: this.current_weather.winddirection,
+      weathercode: this.current_weather.weathercode,
+      is_day: this.current_weather.is_day,
+      time: this.current_weather.time,
     );
   }
 }

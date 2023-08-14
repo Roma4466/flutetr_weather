@@ -60,7 +60,9 @@ class OpenMeteoApiClient {
 
   Future<GeocodingResult> locationSearch(String city) async {
     try {
+      print('weatherResponse: ');
       final weatherResponse = await geocodingApiProvider.searchPlace(city, 1);
+      print('weatherResponse: $weatherResponse');
       if (weatherResponse.results.isEmpty) throw LocationNotFoundFailure();
       return weatherResponse.results.first;
     } catch (_) {
@@ -77,7 +79,7 @@ class OpenMeteoApiClient {
           await openMeteoApiProvider.getWeather(latitude, longitude, true);
       return weatherResponse;
     } catch (_) {
-      throw LocationRequestFailure();
+      throw WeatherRequestFailure();
     }
   }
 }
