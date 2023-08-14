@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
+
 import '../models/models.dart';
 
 part 'open_meteo_api_provider.g.dart';
