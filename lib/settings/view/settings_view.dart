@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../weather/weather.dart';
+import '../../../weather_pages/weather/weather.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});

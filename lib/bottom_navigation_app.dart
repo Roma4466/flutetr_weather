@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_weather/weather_pages/search_app.dart';
-import 'package:flutter_weather/weather_pages/settings/settings.dart';
+import 'package:flutter_weather/settings/settings.dart';
 import 'package:weather_repository/weather_repository.dart';
 
 class BottomNavigationBarApp extends StatelessWidget {
