@@ -25,7 +25,7 @@ class _SettingsViewState extends State<SettingsView> {
                 title: const Text('Temperature Units'),
                 isThreeLine: true,
                 subtitle: const Text(
-                  'Choose temperature units: Celsius or Fahrenheit.',
+                  'Choose temperature units',
                 ),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
