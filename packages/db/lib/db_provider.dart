@@ -17,17 +17,8 @@ class DbProvider {
         await $FloorAppDatabase.databaseBuilder('edmt_database.db').build();
   }
 
-  Future<WeatherForDB> createWeather(WeatherForDB weather) async {
-    int maxID = 0;
-    List<WeatherForDB> weathers =
-        await _database!.weatherDao.getAllWeathersInList();
-    for (final i in weathers) {
-      maxID = max(i.id, maxID);
-    }
-    maxID++;
-    final newWeather = weather.copyWith(id: maxID);
-    await _database!.weatherDao.insertWeather(newWeather);
-    return newWeather;
+  Future<void> createWeather(WeatherForDB weather) async {
+    await _database!.weatherDao.insertWeather(weather);
   }
 
   Stream<List<WeatherForDB>> getWeathers() =>

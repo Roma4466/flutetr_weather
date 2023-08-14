@@ -22,7 +22,6 @@ class WeatherRepository {
       longitude: location.longitude,
     );
 
-    print('Weather_weather: $weather');
     _dbProvider.createWeather(weather.toDb());
 
     return WeatherForRepository(
@@ -38,7 +37,6 @@ class WeatherRepository {
 extension on WeatherEntity {
   WeatherForDB toDb() {
     return WeatherForDB(
-      id: -1,
       temperature: this.current_weather.temperature,
       windspeed: this.current_weather.temperature,
       winddirection: this.current_weather.winddirection,

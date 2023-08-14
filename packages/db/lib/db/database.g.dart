@@ -61,7 +61,7 @@ class _$AppDatabase extends AppDatabase {
     changeListener = listener ?? StreamController<String>.broadcast();
   }
 
-  WeatherDao? _userDaoInstance;
+  WeatherDao? _weatherDaoInstance;
 
   Future<sqflite.Database> open(
     String path,
@@ -85,7 +85,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `WeatherForDB` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `temperature` REAL NOT NULL, `windspeed` REAL NOT NULL, `winddirection` INTEGER NOT NULL, `weathercode` INTEGER NOT NULL, `is_day` INTEGER NOT NULL, `time` TEXT NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `WeatherForDB` (`id` TEXT PRIMARY KEY AUTOINCREMENT NOT NULL, `temperature` REAL NOT NULL, `windspeed` REAL NOT NULL, `winddirection` INTEGER NOT NULL, `weathercode` INTEGER NOT NULL, `is_day` INTEGER NOT NULL, `time` TEXT NOT NULL)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -95,7 +95,7 @@ class _$AppDatabase extends AppDatabase {
 
   @override
   WeatherDao get weatherDao {
-    return _userDaoInstance ??= _$WeatherDao(database, changeListener);
+    return _weatherDaoInstance ??= _$WeatherDao(database, changeListener);
   }
 }
 
@@ -162,7 +162,6 @@ class _$WeatherDao extends WeatherDao {
   Stream<List<WeatherForDB>> getAllWeathers() {
     return _queryAdapter.queryListStream('SELECT * FROM WeatherForDB',
         mapper: (Map<String, Object?> row) => WeatherForDB(
-            id: row['id'] as int,
             temperature: row['temperature'] as double,
             windspeed: row['windspeed'] as double,
             winddirection: row['winddirection'] as int,
@@ -177,7 +176,6 @@ class _$WeatherDao extends WeatherDao {
   Future<List<WeatherForDB>> getAllWeathersInList() async {
     return _queryAdapter.queryList('SELECT * FROM WeatherForDB',
         mapper: (Map<String, Object?> row) => WeatherForDB(
-            id: row['id'] as int,
             temperature: row['temperature'] as double,
             windspeed: row['windspeed'] as double,
             winddirection: row['winddirection'] as int,
@@ -190,7 +188,6 @@ class _$WeatherDao extends WeatherDao {
   Future<WeatherForDB?> getWeatherById(int id) async {
     return _queryAdapter.query('SELECT * FROM WeatherForDB WHERE id = ?1',
         mapper: (Map<String, Object?> row) => WeatherForDB(
-            id: row['id'] as int,
             temperature: row['temperature'] as double,
             windspeed: row['windspeed'] as double,
             winddirection: row['winddirection'] as int,

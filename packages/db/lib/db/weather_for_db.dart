@@ -1,9 +1,10 @@
 import 'package:floor/floor.dart';
+import 'package:uuid/uuid.dart';
 
 @entity
 class WeatherForDB {
   @PrimaryKey(autoGenerate: true)
-  final int id;
+  final String id;
   final double temperature;
   final double windspeed;
   final int winddirection;
@@ -12,14 +13,13 @@ class WeatherForDB {
   final String time;
 
   WeatherForDB({
-    required this.id,
     required this.temperature,
     required this.windspeed,
     required this.winddirection,
     required this.weathercode,
     required this.is_day,
     required this.time,
-  });
+  }): id = const Uuid().v4();
 
   @override
   String toString() {
@@ -29,7 +29,6 @@ class WeatherForDB {
   }
 
   WeatherForDB copyWith({
-    int? id,
     double? temperature,
     double? windspeed,
     int? winddirection,
@@ -38,7 +37,6 @@ class WeatherForDB {
     String? time,
   }) {
     return WeatherForDB(
-      id: id ?? this.id,
       temperature: temperature ?? this.temperature,
       windspeed: windspeed ?? this.windspeed,
       winddirection: winddirection ?? this.winddirection,
