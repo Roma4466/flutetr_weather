@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_weather/search/search.dart';
-import 'package:flutter_weather/settings/settings.dart';
-import 'package:flutter_weather/theme/theme.dart';
-import 'package:flutter_weather/weather/view/weather_empty.dart';
-import 'package:flutter_weather/weather/view/weather_error.dart';
-import 'package:flutter_weather/weather/view/weather_loading.dart';
-import 'package:flutter_weather/weather/view/weather_populated.dart';
-import 'package:flutter_weather/weather/weather.dart';
+import 'package:flutter_weather/weather_pages/search/search.dart';
+import 'package:flutter_weather/weather_pages/theme/theme.dart';
+import 'package:flutter_weather/weather_pages/weather/weather.dart';
 import 'package:weather_repository/weather_repository.dart';
 
-import '../cubit/weather_cubit.dart';
-
 class WeatherPage extends StatelessWidget {
-  const WeatherPage({super.key});
+  const WeatherPage({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,21 +28,21 @@ class _WeatherViewState extends State<WeatherView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Flutter Weather'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              Navigator.of(context).push<void>(
-                SettingsPage.route(
-                  context.read<WeatherCubit>(),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Flutter Weather'),
+      //   actions: [
+      //     IconButton(
+      //       icon: const Icon(Icons.settings),
+      //       onPressed: () {
+      //         Navigator.of(context).push<void>(
+      //           SettingsPage.route(
+      //             context.read<WeatherCubit>(),
+      //           ),
+      //         );
+      //       },
+      //     ),
+      //   ],
+      // ),
       body: Center(
         child: BlocConsumer<WeatherCubit, WeatherState>(
           listener: (context, state) {

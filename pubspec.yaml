@@ -16,6 +16,7 @@ dependencies:
   hydrated_bloc: ^9.0.0
   json_annotation: ^4.4.0
   path_provider: ^2.0.8
+  provider: ^6.0.5
   weather_repository:
     path: packages/weather_repository
 
