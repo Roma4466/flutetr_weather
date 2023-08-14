@@ -34,7 +34,7 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
           weather: weather.copyWith(temperature: Temperature(value: value)),
         ),
       );
-    } on Exception catch(e) {
+    } on Exception catch (e) {
       print('Exception from weather: $e');
       emit(state.copyWith(status: WeatherStatus.failure));
     }
@@ -99,5 +99,6 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
 
 extension on double {
   double toFahrenheit() => (this * 9 / 5) + 32;
+
   double toCelsius() => (this - 32) * 5 / 9;
 }
