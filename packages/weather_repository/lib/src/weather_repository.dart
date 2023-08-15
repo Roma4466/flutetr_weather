@@ -15,20 +15,15 @@ class WeatherRepository {
   final OpenMeteoApiClient _weatherApiClient;
   final DbProvider _dbProvider;
 
-  Future<WeatherForRepository> getWeather(String city) async {
+  Future<WeatherForDB> getWeather(String city) async {
     final location = await _weatherApiClient.locationSearch(city);
     final weather = await _weatherApiClient.getWeather(
       latitude: location.latitude,
       longitude: location.longitude,
     );
-
-    _dbProvider.createWeather(weather.toDb());
-
-    return WeatherForRepository(
-      temperature: weather.current_weather.temperature,
-      location: location.name,
-      condition: weather.current_weather.weathercode.toInt().toCondition,
-    );
+    final modifiedWeather = weather.toDb();
+    _dbProvider.createWeather(modifiedWeather);
+    return modifiedWeather;
   }
 
   Stream<List<WeatherForDB>> getWeathers() => _dbProvider.getWeathers();
@@ -37,6 +32,7 @@ class WeatherRepository {
 extension on WeatherEntity {
   WeatherForDB toDb() {
     return WeatherForDB(
+      cityName: city,
       temperature: this.current_weather.temperature,
       windspeed: this.current_weather.temperature,
       winddirection: this.current_weather.winddirection,

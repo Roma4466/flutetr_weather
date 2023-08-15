@@ -85,7 +85,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `WeatherForDB` (`id` TEXT PRIMARY KEY AUTOINCREMENT NOT NULL, `temperature` REAL NOT NULL, `windspeed` REAL NOT NULL, `winddirection` INTEGER NOT NULL, `weathercode` INTEGER NOT NULL, `is_day` INTEGER NOT NULL, `time` TEXT NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `WeatherForDB` (`id` TEXT PRIMARY KEY AUTOINCREMENT NOT NULL, `cityName` TEXT NOT NULL, `temperature` REAL NOT NULL, `windspeed` REAL NOT NULL, `winddirection` INTEGER NOT NULL, `weathercode` INTEGER NOT NULL, `is_day` INTEGER NOT NULL, `time` TEXT NOT NULL)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -109,6 +109,7 @@ class _$WeatherDao extends WeatherDao {
             'WeatherForDB',
             (WeatherForDB item) => <String, Object?>{
                   'id': item.id,
+                  'cityName': item.cityName,
                   'temperature': item.temperature,
                   'windspeed': item.windspeed,
                   'winddirection': item.winddirection,
@@ -123,6 +124,7 @@ class _$WeatherDao extends WeatherDao {
             ['id'],
             (WeatherForDB item) => <String, Object?>{
                   'id': item.id,
+                  'cityName': item.cityName,
                   'temperature': item.temperature,
                   'windspeed': item.windspeed,
                   'winddirection': item.winddirection,
@@ -137,6 +139,7 @@ class _$WeatherDao extends WeatherDao {
             ['id'],
             (WeatherForDB item) => <String, Object?>{
                   'id': item.id,
+                  'cityName': item.cityName,
                   'temperature': item.temperature,
                   'windspeed': item.windspeed,
                   'winddirection': item.winddirection,
@@ -162,6 +165,7 @@ class _$WeatherDao extends WeatherDao {
   Stream<List<WeatherForDB>> getAllWeathers() {
     return _queryAdapter.queryListStream('SELECT * FROM WeatherForDB',
         mapper: (Map<String, Object?> row) => WeatherForDB(
+            cityName: row['cityName'] as String,
             temperature: row['temperature'] as double,
             windspeed: row['windspeed'] as double,
             winddirection: row['winddirection'] as int,
@@ -176,6 +180,7 @@ class _$WeatherDao extends WeatherDao {
   Future<List<WeatherForDB>> getAllWeathersInList() async {
     return _queryAdapter.queryList('SELECT * FROM WeatherForDB',
         mapper: (Map<String, Object?> row) => WeatherForDB(
+            cityName: row['cityName'] as String,
             temperature: row['temperature'] as double,
             windspeed: row['windspeed'] as double,
             winddirection: row['winddirection'] as int,
@@ -188,6 +193,7 @@ class _$WeatherDao extends WeatherDao {
   Future<WeatherForDB?> getWeatherById(int id) async {
     return _queryAdapter.query('SELECT * FROM WeatherForDB WHERE id = ?1',
         mapper: (Map<String, Object?> row) => WeatherForDB(
+            cityName: row['cityName'] as String,
             temperature: row['temperature'] as double,
             windspeed: row['windspeed'] as double,
             winddirection: row['winddirection'] as int,

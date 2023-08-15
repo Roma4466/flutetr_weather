@@ -19,6 +19,8 @@ dependencies:
   provider: ^6.0.5
   weather_repository:
     path: packages/weather_repository
+  db:
+    path: packages/db
 
 dev_dependencies:
   bloc_test: ^9.1.0

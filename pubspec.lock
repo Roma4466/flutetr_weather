@@ -202,7 +202,7 @@ packages:
     source: hosted
     version: "2.3.2"
   db:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "packages/db"
       relative: true
