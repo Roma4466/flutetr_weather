@@ -13,15 +13,4 @@ Future<void> main() async {
         : await getTemporaryDirectory(),
   );
     runApp(App(weatherRepository: WeatherRepository()));
-  // bootstrap();
 }
-
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   HydratedBloc.storage = await HydratedStorage.build(
-//     storageDirectory: kIsWeb
-//         ? HydratedStorage.webStorageDirectory
-//         : await getTemporaryDirectory(),
-//   );
-//   runApp(BottomNavigationBarApp(weatherRepository: WeatherRepository()));
-// }
