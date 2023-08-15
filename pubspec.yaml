@@ -17,6 +17,9 @@ dependencies:
   json_annotation: ^4.4.0
   path_provider: ^2.0.8
   provider: ^6.0.5
+  intl: ^0.18.0
+  flutter_localizations:
+    sdk: flutter
   weather_repository:
     path: packages/weather_repository
 
@@ -30,5 +33,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  generate: true
   assets:
     - assets/

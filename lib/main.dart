@@ -1,17 +1,27 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_weather/app.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:weather_repository/weather_repository.dart';
 
-import 'bottom_navigation_app.dart';
-
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  HydratedBloc.storage = await HydratedStorage.build(
+    HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
         ? HydratedStorage.webStorageDirectory
         : await getTemporaryDirectory(),
   );
-  runApp(BottomNavigationBarApp(weatherRepository: WeatherRepository()));
+    runApp(App(weatherRepository: WeatherRepository()));
+  // bootstrap();
 }
+
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   HydratedBloc.storage = await HydratedStorage.build(
+//     storageDirectory: kIsWeb
+//         ? HydratedStorage.webStorageDirectory
+//         : await getTemporaryDirectory(),
+//   );
+//   runApp(BottomNavigationBarApp(weatherRepository: WeatherRepository()));
+// }
