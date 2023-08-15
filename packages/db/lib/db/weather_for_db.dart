@@ -5,7 +5,6 @@ import 'package:uuid/uuid.dart';
 class WeatherForDB {
   @PrimaryKey(autoGenerate: true)
   final String id;
-  final String cityName;
   final double temperature;
   final double windspeed;
   final int winddirection;
@@ -14,14 +13,13 @@ class WeatherForDB {
   final String time;
 
   WeatherForDB({
-    required this.cityName,
     required this.temperature,
     required this.windspeed,
     required this.winddirection,
     required this.weathercode,
     required this.is_day,
     required this.time,
-  }) : id = const Uuid().v4();
+  }): id = const Uuid().v4();
 
   @override
   String toString() {
@@ -31,7 +29,6 @@ class WeatherForDB {
   }
 
   WeatherForDB copyWith({
-    String? cityName,
     double? temperature,
     double? windspeed,
     int? winddirection,
@@ -40,7 +37,6 @@ class WeatherForDB {
     String? time,
   }) {
     return WeatherForDB(
-      cityName: cityName ?? this.cityName,
       temperature: temperature ?? this.temperature,
       windspeed: windspeed ?? this.windspeed,
       winddirection: winddirection ?? this.winddirection,
