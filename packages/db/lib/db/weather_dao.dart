@@ -3,16 +3,16 @@ import 'package:floor/floor.dart';
 
 @dao
 abstract class WeatherDao {
-  @Query('SELECT * FROM WeatherForDB')
+  @Query('SELECT * FROM WeatherFromDB')
   Stream<List<WeatherFromDB>> getAllWeathers();
 
-  @Query('SELECT * FROM WeatherForDB')
+  @Query('SELECT * FROM WeatherFromDB')
   Future<List<WeatherFromDB>> getAllWeathersInList();
 
-  @Query('SELECT * FROM WeatherForDB WHERE id = :id')
+  @Query('SELECT * FROM WeatherFromDB WHERE id = :id')
   Future<WeatherFromDB?> getWeatherById(int id);
 
-  @Query('DELETE FROM WeatherForDB')
+  @Query('DELETE FROM WeatherFromDB')
   Future<void> deleteAll();
 
   @insert

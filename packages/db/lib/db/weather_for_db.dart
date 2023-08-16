@@ -3,7 +3,7 @@ import 'package:uuid/uuid.dart';
 
 @entity
 class WeatherFromDB {
-  @PrimaryKey(autoGenerate: true)
+  @PrimaryKey(autoGenerate: false)
   final String id;
   final String city;
   final double temperature;
@@ -25,7 +25,7 @@ class WeatherFromDB {
 
   @override
   String toString() {
-    return 'CurrentWeather{temperature: $temperature, windspeed: $windSpeed, '
+    return 'CurrentWeather{city: $city, temperature: $temperature, windspeed: $windSpeed, '
         'winddirection: $windDirection, weathercode: $weatherCode, '
         'is_day: $isDay, time: $time}';
   }

@@ -24,6 +24,10 @@ class WeatherRepository {
     final modifiedWeather = weather.toDb(location.name);
     _dbProvider.createWeather(modifiedWeather);
     print('database action: successfully added weather');
+    final weathers = await _dbProvider.getWeathersInList();
+    for(final i in weathers){
+      print(i.toString());
+    }
 
     return modifiedWeather;
   }

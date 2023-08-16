@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math' show max;
 
 import 'db/db.dart';
 
@@ -23,4 +22,7 @@ class DbProvider {
 
   Stream<List<WeatherFromDB>> getWeathers() =>
       _database!.weatherDao.getAllWeathers();
+
+  Future<List<WeatherFromDB>> getWeathersInList() =>
+      _database!.weatherDao.getAllWeathersInList();
 }
