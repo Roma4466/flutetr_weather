@@ -6,6 +6,7 @@ import 'package:weather_repository/weather_repository.dart'
     show WeatherRepository;
 
 part 'weather_cubit.g.dart';
+
 part 'weather_state.dart';
 
 class WeatherCubit extends HydratedCubit<WeatherState> {
@@ -19,7 +20,7 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
     emit(state.copyWith(status: WeatherStatus.loading));
 
     try {
-      final weather = Weather.fromRepository(
+      final weather = Weather.fromDb(
         await _weatherRepository.getWeather(city),
       );
       final units = state.temperatureUnits;
@@ -44,7 +45,7 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
     if (!state.status.isSuccess) return;
     if (state.weather == Weather.empty) return;
     try {
-      final weather = Weather.fromRepository(
+      final weather = Weather.fromDb(
         await _weatherRepository.getWeather(state.weather.location),
       );
       final units = state.temperatureUnits;

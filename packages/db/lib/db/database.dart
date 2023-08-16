@@ -8,7 +8,7 @@ import 'weather_for_db.dart';
 
 part 'database.g.dart';
 
-@Database(version: 1, entities: [WeatherForDB])
+@Database(version: 1, entities: [WeatherFromDB])
 abstract class AppDatabase extends FloorDatabase {
   WeatherDao get weatherDao;
 }

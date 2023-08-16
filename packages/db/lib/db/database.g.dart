@@ -43,6 +43,7 @@ class _$AppDatabaseBuilder {
 
   /// Creates the database and initializes it.
   Future<AppDatabase> build() async {
+
     final path = name != null
         ? await sqfliteDatabaseFactory.getDatabasePath(name!)
         : ':memory:';
@@ -85,7 +86,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `WeatherForDB` (`id` TEXT PRIMARY KEY AUTOINCREMENT NOT NULL, `temperature` REAL NOT NULL, `windspeed` REAL NOT NULL, `winddirection` INTEGER NOT NULL, `weathercode` INTEGER NOT NULL, `is_day` INTEGER NOT NULL, `time` TEXT NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `WeatherFromDB` (`id` TEXT PRIMARY KEY AUTOINCREMENT NOT NULL, `city` TEXT NOT NULL, `temperature` REAL NOT NULL, `windSpeed` REAL NOT NULL, `windDirection` INTEGER NOT NULL, `weatherCode` INTEGER NOT NULL, `isDay` INTEGER NOT NULL, `time` TEXT NOT NULL)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -104,44 +105,47 @@ class _$WeatherDao extends WeatherDao {
     this.database,
     this.changeListener,
   )   : _queryAdapter = QueryAdapter(database, changeListener),
-        _weatherForDBInsertionAdapter = InsertionAdapter(
+        _weatherFromDBInsertionAdapter = InsertionAdapter(
             database,
-            'WeatherForDB',
-            (WeatherForDB item) => <String, Object?>{
+            'WeatherFromDB',
+            (WeatherFromDB item) => <String, Object?>{
                   'id': item.id,
+                  'city': item.city,
                   'temperature': item.temperature,
-                  'windspeed': item.windspeed,
-                  'winddirection': item.winddirection,
-                  'weathercode': item.weathercode,
-                  'is_day': item.is_day,
+                  'windSpeed': item.windSpeed,
+                  'windDirection': item.windDirection,
+                  'weatherCode': item.weatherCode,
+                  'isDay': item.isDay,
                   'time': item.time
                 },
             changeListener),
-        _weatherForDBUpdateAdapter = UpdateAdapter(
+        _weatherFromDBUpdateAdapter = UpdateAdapter(
             database,
-            'WeatherForDB',
+            'WeatherFromDB',
             ['id'],
-            (WeatherForDB item) => <String, Object?>{
+            (WeatherFromDB item) => <String, Object?>{
                   'id': item.id,
+                  'city': item.city,
                   'temperature': item.temperature,
-                  'windspeed': item.windspeed,
-                  'winddirection': item.winddirection,
-                  'weathercode': item.weathercode,
-                  'is_day': item.is_day,
+                  'windSpeed': item.windSpeed,
+                  'windDirection': item.windDirection,
+                  'weatherCode': item.weatherCode,
+                  'isDay': item.isDay,
                   'time': item.time
                 },
             changeListener),
-        _weatherForDBDeletionAdapter = DeletionAdapter(
+        _weatherFromDBDeletionAdapter = DeletionAdapter(
             database,
-            'WeatherForDB',
+            'WeatherFromDB',
             ['id'],
-            (WeatherForDB item) => <String, Object?>{
+            (WeatherFromDB item) => <String, Object?>{
                   'id': item.id,
+                  'city': item.city,
                   'temperature': item.temperature,
-                  'windspeed': item.windspeed,
-                  'winddirection': item.winddirection,
-                  'weathercode': item.weathercode,
-                  'is_day': item.is_day,
+                  'windSpeed': item.windSpeed,
+                  'windDirection': item.windDirection,
+                  'weatherCode': item.weatherCode,
+                  'isDay': item.isDay,
                   'time': item.time
                 },
             changeListener);
@@ -152,47 +156,50 @@ class _$WeatherDao extends WeatherDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<WeatherForDB> _weatherForDBInsertionAdapter;
+  final InsertionAdapter<WeatherFromDB> _weatherFromDBInsertionAdapter;
 
-  final UpdateAdapter<WeatherForDB> _weatherForDBUpdateAdapter;
+  final UpdateAdapter<WeatherFromDB> _weatherFromDBUpdateAdapter;
 
-  final DeletionAdapter<WeatherForDB> _weatherForDBDeletionAdapter;
+  final DeletionAdapter<WeatherFromDB> _weatherFromDBDeletionAdapter;
 
   @override
-  Stream<List<WeatherForDB>> getAllWeathers() {
+  Stream<List<WeatherFromDB>> getAllWeathers() {
     return _queryAdapter.queryListStream('SELECT * FROM WeatherForDB',
-        mapper: (Map<String, Object?> row) => WeatherForDB(
+        mapper: (Map<String, Object?> row) => WeatherFromDB(
+            city: row['city'] as String,
             temperature: row['temperature'] as double,
-            windspeed: row['windspeed'] as double,
-            winddirection: row['winddirection'] as int,
-            weathercode: row['weathercode'] as int,
-            is_day: row['is_day'] as int,
+            windSpeed: row['windSpeed'] as double,
+            windDirection: row['windDirection'] as int,
+            weatherCode: row['weatherCode'] as int,
+            isDay: row['isDay'] as int,
             time: row['time'] as String),
         queryableName: 'WeatherForDB',
         isView: false);
   }
 
   @override
-  Future<List<WeatherForDB>> getAllWeathersInList() async {
+  Future<List<WeatherFromDB>> getAllWeathersInList() async {
     return _queryAdapter.queryList('SELECT * FROM WeatherForDB',
-        mapper: (Map<String, Object?> row) => WeatherForDB(
+        mapper: (Map<String, Object?> row) => WeatherFromDB(
+            city: row['city'] as String,
             temperature: row['temperature'] as double,
-            windspeed: row['windspeed'] as double,
-            winddirection: row['winddirection'] as int,
-            weathercode: row['weathercode'] as int,
-            is_day: row['is_day'] as int,
+            windSpeed: row['windSpeed'] as double,
+            windDirection: row['windDirection'] as int,
+            weatherCode: row['weatherCode'] as int,
+            isDay: row['isDay'] as int,
             time: row['time'] as String));
   }
 
   @override
-  Future<WeatherForDB?> getWeatherById(int id) async {
+  Future<WeatherFromDB?> getWeatherById(int id) async {
     return _queryAdapter.query('SELECT * FROM WeatherForDB WHERE id = ?1',
-        mapper: (Map<String, Object?> row) => WeatherForDB(
+        mapper: (Map<String, Object?> row) => WeatherFromDB(
+            city: row['city'] as String,
             temperature: row['temperature'] as double,
-            windspeed: row['windspeed'] as double,
-            winddirection: row['winddirection'] as int,
-            weathercode: row['weathercode'] as int,
-            is_day: row['is_day'] as int,
+            windSpeed: row['windSpeed'] as double,
+            windDirection: row['windDirection'] as int,
+            weatherCode: row['weatherCode'] as int,
+            isDay: row['isDay'] as int,
             time: row['time'] as String),
         arguments: [id]);
   }
@@ -203,18 +210,18 @@ class _$WeatherDao extends WeatherDao {
   }
 
   @override
-  Future<void> insertWeather(WeatherForDB weather) async {
-    await _weatherForDBInsertionAdapter.insert(
+  Future<void> insertWeather(WeatherFromDB weather) async {
+    await _weatherFromDBInsertionAdapter.insert(
         weather, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> updateWeather(WeatherForDB weather) async {
-    await _weatherForDBUpdateAdapter.update(weather, OnConflictStrategy.abort);
+  Future<void> updateWeather(WeatherFromDB weather) async {
+    await _weatherFromDBUpdateAdapter.update(weather, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> deleteWeather(WeatherForDB weather) async {
-    await _weatherForDBDeletionAdapter.delete(weather);
+  Future<void> deleteWeather(WeatherFromDB weather) async {
+    await _weatherFromDBDeletionAdapter.delete(weather);
   }
 }

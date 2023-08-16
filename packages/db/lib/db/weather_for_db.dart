@@ -2,46 +2,50 @@ import 'package:floor/floor.dart';
 import 'package:uuid/uuid.dart';
 
 @entity
-class WeatherForDB {
+class WeatherFromDB {
   @PrimaryKey(autoGenerate: true)
   final String id;
+  final String city;
   final double temperature;
-  final double windspeed;
-  final int winddirection;
-  final int weathercode;
-  final int is_day;
+  final double windSpeed;
+  final int windDirection;
+  final int weatherCode;
+  final int isDay;
   final String time;
 
-  WeatherForDB({
+  WeatherFromDB({
+    required this.city,
     required this.temperature,
-    required this.windspeed,
-    required this.winddirection,
-    required this.weathercode,
-    required this.is_day,
+    required this.windSpeed,
+    required this.windDirection,
+    required this.weatherCode,
+    required this.isDay,
     required this.time,
-  }): id = const Uuid().v4();
+  }) : id = const Uuid().v4();
 
   @override
   String toString() {
-    return 'CurrentWeather{temperature: $temperature, windspeed: $windspeed, '
-        'winddirection: $winddirection, weathercode: $weathercode, '
-        'is_day: $is_day, time: $time}';
+    return 'CurrentWeather{temperature: $temperature, windspeed: $windSpeed, '
+        'winddirection: $windDirection, weathercode: $weatherCode, '
+        'is_day: $isDay, time: $time}';
   }
 
-  WeatherForDB copyWith({
+  WeatherFromDB copyWith({
+    String? cityName,
     double? temperature,
     double? windspeed,
     int? winddirection,
     int? weathercode,
-    int? is_day,
+    int? isDay,
     String? time,
   }) {
-    return WeatherForDB(
+    return WeatherFromDB(
+      city: cityName ?? city,
       temperature: temperature ?? this.temperature,
-      windspeed: windspeed ?? this.windspeed,
-      winddirection: winddirection ?? this.winddirection,
-      weathercode: weathercode ?? this.weathercode,
-      is_day: is_day ?? this.is_day,
+      windSpeed: windspeed ?? this.windSpeed,
+      windDirection: winddirection ?? this.windDirection,
+      weatherCode: weathercode ?? this.weatherCode,
+      isDay: isDay ?? this.isDay,
       time: time ?? this.time,
     );
   }
