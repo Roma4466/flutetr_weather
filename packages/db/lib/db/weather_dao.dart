@@ -10,7 +10,7 @@ abstract class WeatherDao {
   Future<List<WeatherFromDB>> getAllWeathersInList();
 
   @Query('SELECT * FROM WeatherFromDB WHERE id = :id')
-  Future<WeatherFromDB?> getWeatherById(int id);
+  Future<WeatherFromDB?> getWeatherById(String id);
 
   @Query('DELETE FROM WeatherFromDB')
   Future<void> deleteAll();
@@ -23,4 +23,7 @@ abstract class WeatherDao {
 
   @delete
   Future<void> deleteWeather(WeatherFromDB weather);
+
+  @Query('DELETE FROM WeatherFromDB WHERE id = :id')
+  Future<void> deleteWeatherById(String id);
 }

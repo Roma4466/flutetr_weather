@@ -23,6 +23,13 @@ class DbProvider {
   Stream<List<WeatherFromDB>> getWeathers() =>
       _database!.weatherDao.getAllWeathers();
 
+  Future<WeatherFromDB?> getWeatherById(String id) =>
+      _database!.weatherDao.getWeatherById(id);
+
   Future<List<WeatherFromDB>> getWeathersInList() =>
       _database!.weatherDao.getAllWeathersInList();
+
+  Future<void> delete(String id) => _database!.weatherDao.deleteWeatherById(id);
+
+  Future<void> deleteAll() => _database!.weatherDao.deleteAll();
 }

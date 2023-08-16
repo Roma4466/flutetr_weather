@@ -13,6 +13,7 @@ class WeatherRepository {
 
   final OpenMeteoApiClient _weatherApiClient;
   final DbProvider _dbProvider;
+  WeatherFromDB? lastDeleted;
 
   Future<WeatherFromDB> getWeather(String city) async {
     final location = await _weatherApiClient.locationSearch(city);
@@ -25,7 +26,7 @@ class WeatherRepository {
     _dbProvider.createWeather(modifiedWeather);
     print('database action: successfully added weather');
     final weathers = await _dbProvider.getWeathersInList();
-    for(final i in weathers){
+    for (final i in weathers) {
       print(i.toString());
     }
 
@@ -33,6 +34,21 @@ class WeatherRepository {
   }
 
   Stream<List<WeatherFromDB>> getWeathers() => _dbProvider.getWeathers();
+
+  Future<void> delete(String id) async {
+    lastDeleted = await _dbProvider.getWeatherById(id);
+    _dbProvider.delete(id);
+  }
+
+  Future<void> deleteAll() async {
+    _dbProvider.deleteAll();
+  }
+
+  Future<void> undoDelete() async {
+    if (lastDeleted != null) {
+      _dbProvider.createWeather(lastDeleted!);
+    }
+  }
 }
 
 extension on WeatherEntity {

@@ -190,7 +190,7 @@ class _$WeatherDao extends WeatherDao {
   }
 
   @override
-  Future<WeatherFromDB?> getWeatherById(int id) async {
+  Future<WeatherFromDB?> getWeatherById(String id) async {
     return _queryAdapter.query('SELECT * FROM WeatherFromDB WHERE id = ?1',
         mapper: (Map<String, Object?> row) => WeatherFromDB(
             city: row['city'] as String,
@@ -206,6 +206,12 @@ class _$WeatherDao extends WeatherDao {
   @override
   Future<void> deleteAll() async {
     await _queryAdapter.queryNoReturn('DELETE FROM WeatherFromDB');
+  }
+
+  @override
+  Future<void> deleteWeatherById(String id) async {
+    await _queryAdapter.queryNoReturn('DELETE FROM WeatherFromDB WHERE id = ?1',
+        arguments: [id]);
   }
 
   @override

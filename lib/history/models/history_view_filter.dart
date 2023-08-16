@@ -1,3 +1,4 @@
+import 'package:db/db/weather_for_db.dart';
 import 'package:flutter_weather/weather_pages/weather/models/models.dart';
 
 enum HistoryViewFilter { byDate, byDateDesc, byName, byNameDesc }
