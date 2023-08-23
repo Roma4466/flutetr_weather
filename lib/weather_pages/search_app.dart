@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'theme/theme.dart';
+import '../theme/theme.dart';
 import 'weather/view/view.dart';
 
 class WeatherApp extends StatelessWidget {

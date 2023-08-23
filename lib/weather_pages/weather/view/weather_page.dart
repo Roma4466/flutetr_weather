@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_weather/weather_pages/search/search.dart';
-import 'package:flutter_weather/weather_pages/theme/theme.dart';
+import 'package:flutter_weather/theme/theme.dart';
 import 'package:flutter_weather/weather_pages/weather/weather.dart';
 import 'package:weather_repository/weather_repository.dart';
 

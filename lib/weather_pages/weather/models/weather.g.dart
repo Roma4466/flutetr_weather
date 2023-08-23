@@ -6,22 +6,6 @@ part of 'weather.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Temperature _$TemperatureFromJson(Map<String, dynamic> json) => $checkedCreate(
-      'Temperature',
-      json,
-      ($checkedConvert) {
-        final val = Temperature(
-          value: $checkedConvert('value', (v) => (v as num).toDouble()),
-        );
-        return val;
-      },
-    );
-
-Map<String, dynamic> _$TemperatureToJson(Temperature instance) =>
-    <String, dynamic>{
-      'value': instance.value,
-    };
-
 Weather _$WeatherFromJson(Map<String, dynamic> json) => $checkedCreate(
       'Weather',
       json,
@@ -34,10 +18,25 @@ Weather _$WeatherFromJson(Map<String, dynamic> json) => $checkedCreate(
           location: $checkedConvert('location', (v) => v as String),
           temperature: $checkedConvert('temperature',
               (v) => Temperature.fromJson(v as Map<String, dynamic>)),
+          mainDescription:
+              $checkedConvert('main_description', (v) => v as String),
+          description: $checkedConvert('description', (v) => v as String),
+          pressure: $checkedConvert('pressure', (v) => v as int),
+          humidity: $checkedConvert('humidity', (v) => v as int),
+          visibility: $checkedConvert('visibility', (v) => v as int),
+          windSpeed:
+              $checkedConvert('wind_speed', (v) => (v as num).toDouble()),
+          sunrise:
+              $checkedConvert('sunrise', (v) => DateTime.parse(v as String)),
+          sunset: $checkedConvert('sunset', (v) => DateTime.parse(v as String)),
         );
         return val;
       },
-      fieldKeyMap: const {'lastUpdated': 'last_updated'},
+      fieldKeyMap: const {
+        'lastUpdated': 'last_updated',
+        'mainDescription': 'main_description',
+        'windSpeed': 'wind_speed'
+      },
     );
 
 Map<String, dynamic> _$WeatherToJson(Weather instance) => <String, dynamic>{
@@ -45,6 +44,14 @@ Map<String, dynamic> _$WeatherToJson(Weather instance) => <String, dynamic>{
       'last_updated': instance.lastUpdated.toIso8601String(),
       'location': instance.location,
       'temperature': instance.temperature.toJson(),
+      'main_description': instance.mainDescription,
+      'description': instance.description,
+      'pressure': instance.pressure,
+      'humidity': instance.humidity,
+      'visibility': instance.visibility,
+      'wind_speed': instance.windSpeed,
+      'sunrise': instance.sunrise.toIso8601String(),
+      'sunset': instance.sunset.toIso8601String(),
     };
 
 const _$WeatherConditionEnumMap = {

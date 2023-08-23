@@ -1,34 +1,11 @@
 import 'package:db/db/db.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:weather_repository/weather_repository.dart'
-    hide WeatherForRepository;
+import 'package:weather_repository/weather_repository.dart';
+
+import 'temperature.dart';
 
 part 'weather.g.dart';
-
-enum TemperatureUnits {
-  fahrenheit,
-  celsius;
-
-  bool get isFahrenheit => this == TemperatureUnits.fahrenheit;
-
-  bool get isCelsius => this == TemperatureUnits.celsius;
-}
-
-@JsonSerializable()
-class Temperature extends Equatable {
-  const Temperature({required this.value});
-
-  factory Temperature.fromJson(Map<String, dynamic> json) =>
-      _$TemperatureFromJson(json);
-
-  final double value;
-
-  Map<String, dynamic> toJson() => _$TemperatureToJson(this);
-
-  @override
-  List<Object> get props => [value];
-}
 
 @JsonSerializable()
 class Weather extends Equatable {
@@ -37,6 +14,14 @@ class Weather extends Equatable {
     required this.lastUpdated,
     required this.location,
     required this.temperature,
+    required this.mainDescription,
+    required this.description,
+    required this.pressure,
+    required this.humidity,
+    required this.visibility,
+    required this.windSpeed,
+    required this.sunrise,
+    required this.sunset,
   });
 
   factory Weather.fromJson(Map<String, dynamic> json) =>
@@ -47,24 +32,74 @@ class Weather extends Equatable {
       condition: weather.weatherCode.toCondition,
       lastUpdated: DateTime.now(),
       location: weather.city,
-      temperature: Temperature(value: weather.temperature),
+      temperature: Temperature(
+          value: weather.temperature, minValue: 0, maxValue: 0, feelsLike: 0),
+      mainDescription: '',
+      // Set the appropriate values
+      description: '',
+      // Set the appropriate values
+      pressure: 0,
+      // Set the appropriate values
+      humidity: 0,
+      // Set the appropriate values
+      visibility: 0,
+      // Set the appropriate values
+      windSpeed: 0,
+      // Set the appropriate values
+      sunrise: DateTime.now(),
+      // Set the appropriate values
+      sunset: DateTime.now(), // Set the appropriate values
     );
   }
 
   static final empty = Weather(
     condition: WeatherCondition.unknown,
     lastUpdated: DateTime(0),
-    temperature: const Temperature(value: 0),
+    temperature: const Temperature(
+      value: 0,
+      minValue: 0,
+      maxValue: 0,
+      feelsLike: 0,
+    ),
     location: '--',
+    mainDescription: '',
+    description: '',
+    pressure: 0,
+    humidity: 0,
+    visibility: 0,
+    windSpeed: 0,
+    sunrise: DateTime.now(),
+    sunset: DateTime.now(),
   );
 
   final WeatherCondition condition;
   final DateTime lastUpdated;
   final String location;
   final Temperature temperature;
+  final String mainDescription;
+  final String description;
+  final int pressure;
+  final int humidity;
+  final int visibility;
+  final double windSpeed;
+  final DateTime sunrise;
+  final DateTime sunset;
 
   @override
-  List<Object> get props => [condition, lastUpdated, location, temperature];
+  List<Object> get props => [
+        condition,
+        lastUpdated,
+        location,
+        temperature,
+        mainDescription,
+        description,
+        pressure,
+        humidity,
+        visibility,
+        windSpeed,
+        sunrise,
+        sunset,
+      ];
 
   Map<String, dynamic> toJson() => _$WeatherToJson(this);
 
@@ -73,12 +108,28 @@ class Weather extends Equatable {
     DateTime? lastUpdated,
     String? location,
     Temperature? temperature,
+    String? mainDescription,
+    String? description,
+    int? pressure,
+    int? humidity,
+    int? visibility,
+    double? windSpeed,
+    DateTime? sunrise,
+    DateTime? sunset,
   }) {
     return Weather(
       condition: condition ?? this.condition,
       lastUpdated: lastUpdated ?? this.lastUpdated,
       location: location ?? this.location,
       temperature: temperature ?? this.temperature,
+      mainDescription: mainDescription ?? this.mainDescription,
+      description: description ?? this.description,
+      pressure: pressure ?? this.pressure,
+      humidity: humidity ?? this.humidity,
+      visibility: visibility ?? this.visibility,
+      windSpeed: windSpeed ?? this.windSpeed,
+      sunrise: sunrise ?? this.sunrise,
+      sunset: sunset ?? this.sunset,
     );
   }
 }

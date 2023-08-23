@@ -17,9 +17,6 @@ class BottomNavigationBarApp extends StatelessWidget {
       value: _weatherRepository,
       child: MaterialApp(home: BottomNavigationBarWidget()),
     );
-    // return const MaterialApp(
-    //   home: BottomNavigationBarWidget(),
-    // );
   }
 }
 
