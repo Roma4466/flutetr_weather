@@ -6,46 +6,47 @@ part 'weather_entity.g.dart';
 /// Represents the response received from the OpenWeather API.
 @JsonSerializable()
 class OpenWeatherResponse extends Equatable {
-  @JsonKey(name: 'coord')
+  /// Coordinates of the location.
   final Coord coord;
 
-  @JsonKey(name: 'weather')
+  /// Weather information.
   final List<Weather> weather;
 
-  @JsonKey(name: 'base')
-  final String? base;
+  /// Data source.
+  final String base;
 
-  @JsonKey(name: 'main')
+  /// Main weather data.
   final Main main;
 
-  @JsonKey(name: 'visibility')
+  /// Visibility in meters.
   final int visibility;
 
-  @JsonKey(name: 'wind')
+  /// Wind information.
   final Wind wind;
 
-  @JsonKey(name: 'clouds')
+  /// Cloud information.
   final Clouds clouds;
 
-  @JsonKey(name: 'dt')
+  /// Time of data calculation, UNIX, UTC.
   final int dt;
 
-  @JsonKey(name: 'sys')
+  /// System information.
   final Sys sys;
 
-  @JsonKey(name: 'id')
+  /// City ID.
   final int id;
 
+  /// Name of the city.
   @JsonKey(name: 'name')
-  final String? name;
+  final String cityName;
 
-  @JsonKey(name: 'cod')
+  /// HTTP response code.
   final int cod;
 
   OpenWeatherResponse({
     required this.coord,
     required this.weather,
-    this.base,
+    required this.base,
     required this.main,
     required this.visibility,
     required this.wind,
@@ -53,7 +54,7 @@ class OpenWeatherResponse extends Equatable {
     required this.dt,
     required this.sys,
     required this.id,
-    this.name,
+    required this.cityName,
     required this.cod,
   });
 
@@ -64,46 +65,45 @@ class OpenWeatherResponse extends Equatable {
 
   @override
   List<Object?> get props => [
-    coord,
-    weather,
-    base,
-    main,
-    visibility,
-    wind,
-    clouds,
-    dt,
-    sys,
-    id,
-    name,
-    cod,
-  ];
+        coord,
+        weather,
+        base,
+        main,
+        visibility,
+        wind,
+        clouds,
+        dt,
+        sys,
+        id,
+        cityName,
+        cod,
+      ];
 
   @override
   String toString() => 'OpenWeatherResponse(coord: $coord, weather: $weather, '
       'base: $base, main: $main, visibility: $visibility, wind: $wind, '
-      'clouds: $clouds, dt: $dt, sys: $sys, id: $id, name: $name, cod: $cod)';
+      'clouds: $clouds, dt: $dt, sys: $sys, id: $id, name: $cityName, cod: $cod)';
 }
 
-/// Represents weather information.
 @JsonSerializable()
 class Weather extends Equatable {
-  @JsonKey(name: 'id')
+  /// Weather condition ID.
   final int id;
 
-  @JsonKey(name: 'main')
-  final String? main;
+  /// Main weather parameter.
+  final String main;
 
-  @JsonKey(name: 'description')
-  final String? description;
+  /// Detailed weather description.
+  final String description;
 
-  @JsonKey(name: 'icon')
-  final String? icon;
+  /// Weather icon ID.
+  final String icon;
 
   Weather({
     required this.id,
-    this.main,
-    this.description,
-    this.icon,
+    required this.main,
+    required this.description,
+    required this.icon,
   });
 
   factory Weather.fromJson(Map<String, dynamic> json) =>
@@ -119,10 +119,9 @@ class Weather extends Equatable {
       'Weather(id: $id, main: $main, description: $description, icon: $icon)';
 }
 
-/// Represents cloud information.
 @JsonSerializable()
 class Clouds extends Equatable {
-  @JsonKey(name: 'all')
+  /// Cloudiness percentage.
   final int all;
 
   Clouds({required this.all});
@@ -138,13 +137,12 @@ class Clouds extends Equatable {
   String toString() => 'Clouds(all: $all)';
 }
 
-/// Represents geographic coordinates.
 @JsonSerializable()
 class Coord extends Equatable {
-  @JsonKey(name: 'lon')
+  /// Longitude coordinate.
   final double lon;
 
-  @JsonKey(name: 'lat')
+  /// Latitude coordinate.
   final double lat;
 
   Coord({required this.lon, required this.lat});
@@ -160,34 +158,36 @@ class Coord extends Equatable {
   String toString() => 'Coord(lon: $lon, lat: $lat)';
 }
 
-/// Represents main weather data.
 @JsonSerializable()
 class Main extends Equatable {
-  @JsonKey(name: 'temp')
+  /// Temperature in Kelvin.
   final double temp;
 
-  @JsonKey(name: 'pressure')
-  final int pressure;
-
-  @JsonKey(name: 'humidity')
-  final int humidity;
-
-  @JsonKey(name: 'temp_min')
-  final double tempMin;
-
-  @JsonKey(name: 'temp_max')
-  final double tempMax;
-
+  /// Temperature feels like in Kelvin.
   @JsonKey(name: 'feels_like')
   final double feelsLike;
 
+  /// Minimum temperature in Kelvin.
+  @JsonKey(name: 'temp_min')
+  final double tempMin;
+
+  /// Maximum temperature in Kelvin.
+  @JsonKey(name: 'temp_max')
+  final double tempMax;
+
+  /// Atmospheric pressure in hPa.
+  final int pressure;
+
+  /// Humidity percentage.
+  final int humidity;
+
   Main({
     required this.temp,
-    required this.pressure,
-    required this.humidity,
+    required this.feelsLike,
     required this.tempMin,
     required this.tempMax,
-    required this.feelsLike,
+    required this.pressure,
+    required this.humidity,
   });
 
   factory Main.fromJson(Map<String, dynamic> json) => _$MainFromJson(json);
@@ -195,40 +195,36 @@ class Main extends Equatable {
   Map<String, dynamic> toJson() => _$MainToJson(this);
 
   @override
-  List<Object?> get props => [temp, pressure, humidity, tempMin, tempMax, feelsLike];
+  List<Object?> get props =>
+      [temp, feelsLike, tempMin, tempMax, pressure, humidity];
 
   @override
   String toString() =>
-      'Main(temp: $temp, pressure: $pressure, humidity: $humidity, '
-          'tempMin: $tempMin, tempMax: $tempMax, feelsLike: $feelsLike)';
+      'Main(temp: $temp, feelsLike: $feelsLike, tempMin: $tempMin, '
+      'tempMax: $tempMax, pressure: $pressure, humidity: $humidity)';
 }
 
-/// Represents system information.
 @JsonSerializable()
 class Sys extends Equatable {
-  @JsonKey(name: 'type')
+  /// System parameter.
   final int type;
 
-  @JsonKey(name: 'id')
+  /// System ID.
   final int id;
 
-  @JsonKey(name: 'message')
-  final double message;
+  /// Country code (2-character).
+  final String country;
 
-  @JsonKey(name: 'country')
-  final String? country;
-
-  @JsonKey(name: 'sunrise')
+  /// Sunrise time in UNIX, UTC.
   final int sunrise;
 
-  @JsonKey(name: 'sunset')
+  /// Sunset time in UNIX, UTC.
   final int sunset;
 
   Sys({
     required this.type,
     required this.id,
-    required this.message,
-    this.country,
+    required this.country,
     required this.sunrise,
     required this.sunset,
   });
@@ -238,31 +234,37 @@ class Sys extends Equatable {
   Map<String, dynamic> toJson() => _$SysToJson(this);
 
   @override
-  List<Object?> get props => [type, id, message, country, sunrise, sunset];
+  List<Object?> get props => [type, id, country, sunrise, sunset];
 
   @override
-  String toString() => 'Sys(type: $type, id: $id, message: $message, '
+  String toString() => 'Sys(type: $type, id: $id, '
       'country: $country, sunrise: $sunrise, sunset: $sunset)';
 }
 
-/// Represents wind information.
 @JsonSerializable()
 class Wind extends Equatable {
-  @JsonKey(name: 'speed')
+  /// Wind speed in meters per second.
   final double speed;
 
-  @JsonKey(name: 'deg')
+  /// Wind direction in degrees.
   final double deg;
 
-  Wind({required this.speed, required this.deg});
+  /// Wind gust speed in meters per second.
+  final double gust;
+
+  Wind({
+    required this.speed,
+    required this.deg,
+    required this.gust,
+  });
 
   factory Wind.fromJson(Map<String, dynamic> json) => _$WindFromJson(json);
 
   Map<String, dynamic> toJson() => _$WindToJson(this);
 
   @override
-  List<Object?> get props => [speed, deg];
+  List<Object?> get props => [speed, deg, gust];
 
   @override
-  String toString() => 'Wind(speed: $speed, deg: $deg)';
+  String toString() => 'Wind(speed: $speed, deg: $deg, gust: $gust)';
 }

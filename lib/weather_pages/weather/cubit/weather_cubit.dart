@@ -27,12 +27,27 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
       final value = units.isFahrenheit
           ? weather.temperature.value.toFahrenheit()
           : weather.temperature.value;
+      final minTemp = units.isFahrenheit
+          ? weather.temperature.value.toFahrenheit()
+          : weather.temperature.minValue;
+      final maxTemp = units.isFahrenheit
+          ? weather.temperature.value.toFahrenheit()
+          : weather.temperature.maxValue;
+      final feelsLike = units.isFahrenheit
+          ? weather.temperature.value.toFahrenheit()
+          : weather.temperature.feelsLike;
 
       emit(
         state.copyWith(
           status: WeatherStatus.success,
           temperatureUnits: units,
-          weather: weather.copyWith(temperature: Temperature(value: value)),
+          weather: weather.copyWith(
+              temperature: Temperature(
+            value: value,
+            minValue: minTemp,
+            maxValue: maxTemp,
+            feelsLike: feelsLike,
+          )),
         ),
       );
     } on Exception catch (e) {
@@ -52,12 +67,27 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
       final value = units.isFahrenheit
           ? weather.temperature.value.toFahrenheit()
           : weather.temperature.value;
+      final minTemp = units.isFahrenheit
+          ? weather.temperature.value.toFahrenheit()
+          : weather.temperature.minValue;
+      final maxTemp = units.isFahrenheit
+          ? weather.temperature.value.toFahrenheit()
+          : weather.temperature.maxValue;
+      final feelsLike = units.isFahrenheit
+          ? weather.temperature.value.toFahrenheit()
+          : weather.temperature.feelsLike;
 
       emit(
         state.copyWith(
           status: WeatherStatus.success,
           temperatureUnits: units,
-          weather: weather.copyWith(temperature: Temperature(value: value)),
+          weather: weather.copyWith(
+              temperature: Temperature(
+            value: value,
+            minValue: minTemp,
+            maxValue: maxTemp,
+            feelsLike: feelsLike,
+          )),
         ),
       );
     } on Exception {
@@ -81,10 +111,25 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
       final value = units.isCelsius
           ? temperature.value.toCelsius()
           : temperature.value.toFahrenheit();
+      final minTemp = units.isCelsius
+          ? weather.temperature.value.toCelsius()
+          : weather.temperature.minValue.toFahrenheit();
+      final maxTemp = units.isCelsius
+          ? weather.temperature.value.toCelsius()
+          : weather.temperature.maxValue.toFahrenheit();
+      final feelsLike = units.isCelsius
+          ? weather.temperature.value.toCelsius()
+          : weather.temperature.feelsLike.toFahrenheit();
       emit(
         state.copyWith(
           temperatureUnits: units,
-          weather: weather.copyWith(temperature: Temperature(value: value)),
+          weather: weather.copyWith(
+              temperature: Temperature(
+            value: value,
+            minValue: minTemp,
+            maxValue: maxTemp,
+            feelsLike: feelsLike,
+          )),
         ),
       );
     }
