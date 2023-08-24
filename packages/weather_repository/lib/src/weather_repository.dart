@@ -57,6 +57,7 @@ extension on OpenWeatherResponse {
       minTemp: this.main.tempMin,
       maxTemp: this.main.tempMax,
       feelsLike: this.main.feelsLike,
+      lastUpdated: DateTime.now(),
       sunrise: DateTime.fromMillisecondsSinceEpoch(
         this.sys.sunrise * 10000,
         isUtc: true,

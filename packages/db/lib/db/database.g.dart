@@ -85,7 +85,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `WeatherFromDB` (`id` TEXT PRIMARY KEY AUTOINCREMENT NOT NULL, `city` TEXT NOT NULL, `temperature` REAL NOT NULL, `windSpeed` REAL NOT NULL, `mainDescription` TEXT NOT NULL, `description` TEXT NOT NULL, `pressure` INTEGER NOT NULL, `humidity` INTEGER NOT NULL, `visibility` INTEGER NOT NULL, `minTemp` REAL NOT NULL, `maxTemp` REAL NOT NULL, `feelsLike` REAL NOT NULL, `sunrise` INTEGER NOT NULL, `sunset` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `WeatherFromDB` (`id` TEXT NOT NULL, `city` TEXT NOT NULL, `temperature` REAL NOT NULL, `windSpeed` REAL NOT NULL, `mainDescription` TEXT NOT NULL, `description` TEXT NOT NULL, `pressure` INTEGER NOT NULL, `humidity` INTEGER NOT NULL, `visibility` INTEGER NOT NULL, `minTemp` REAL NOT NULL, `maxTemp` REAL NOT NULL, `feelsLike` REAL NOT NULL, `lastUpdated` INTEGER NOT NULL, `sunrise` INTEGER NOT NULL, `sunset` INTEGER NOT NULL, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -120,6 +120,7 @@ class _$WeatherDao extends WeatherDao {
                   'minTemp': item.minTemp,
                   'maxTemp': item.maxTemp,
                   'feelsLike': item.feelsLike,
+                  'lastUpdated': _dateTimeConverter.encode(item.lastUpdated),
                   'sunrise': _dateTimeConverter.encode(item.sunrise),
                   'sunset': _dateTimeConverter.encode(item.sunset)
                 },
@@ -141,6 +142,7 @@ class _$WeatherDao extends WeatherDao {
                   'minTemp': item.minTemp,
                   'maxTemp': item.maxTemp,
                   'feelsLike': item.feelsLike,
+                  'lastUpdated': _dateTimeConverter.encode(item.lastUpdated),
                   'sunrise': _dateTimeConverter.encode(item.sunrise),
                   'sunset': _dateTimeConverter.encode(item.sunset)
                 },
@@ -162,6 +164,7 @@ class _$WeatherDao extends WeatherDao {
                   'minTemp': item.minTemp,
                   'maxTemp': item.maxTemp,
                   'feelsLike': item.feelsLike,
+                  'lastUpdated': _dateTimeConverter.encode(item.lastUpdated),
                   'sunrise': _dateTimeConverter.encode(item.sunrise),
                   'sunset': _dateTimeConverter.encode(item.sunset)
                 },
@@ -194,6 +197,7 @@ class _$WeatherDao extends WeatherDao {
             minTemp: row['minTemp'] as double,
             maxTemp: row['maxTemp'] as double,
             feelsLike: row['feelsLike'] as double,
+            lastUpdated: _dateTimeConverter.decode(row['lastUpdated'] as int),
             sunrise: _dateTimeConverter.decode(row['sunrise'] as int),
             sunset: _dateTimeConverter.decode(row['sunset'] as int)),
         queryableName: 'WeatherForDB',
@@ -215,6 +219,7 @@ class _$WeatherDao extends WeatherDao {
             minTemp: row['minTemp'] as double,
             maxTemp: row['maxTemp'] as double,
             feelsLike: row['feelsLike'] as double,
+            lastUpdated: _dateTimeConverter.decode(row['lastUpdated'] as int),
             sunrise: _dateTimeConverter.decode(row['sunrise'] as int),
             sunset: _dateTimeConverter.decode(row['sunset'] as int)));
   }
@@ -234,6 +239,7 @@ class _$WeatherDao extends WeatherDao {
             minTemp: row['minTemp'] as double,
             maxTemp: row['maxTemp'] as double,
             feelsLike: row['feelsLike'] as double,
+            lastUpdated: _dateTimeConverter.decode(row['lastUpdated'] as int),
             sunrise: _dateTimeConverter.decode(row['sunrise'] as int),
             sunset: _dateTimeConverter.decode(row['sunset'] as int)),
         arguments: [id]);

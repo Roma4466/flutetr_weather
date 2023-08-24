@@ -6,7 +6,7 @@ import 'datetime_conventer.dart';
 @TypeConverters([DateTimeConverter])
 @entity
 class WeatherFromDB {
-  @PrimaryKey(autoGenerate: true)
+  @PrimaryKey(autoGenerate: false)
   final String id;
   final String city;
   final double temperature;
@@ -19,6 +19,7 @@ class WeatherFromDB {
   final double minTemp;
   final double maxTemp;
   final double feelsLike;
+  final DateTime lastUpdated;
   final DateTime sunrise;
   final DateTime sunset;
 
@@ -34,6 +35,7 @@ class WeatherFromDB {
     required this.minTemp,
     required this.maxTemp,
     required this.feelsLike,
+    required this.lastUpdated,
     required this.sunrise,
     required this.sunset,
   }) : id = const Uuid().v4();
@@ -43,7 +45,7 @@ class WeatherFromDB {
     return 'WeatherFromDB{city: $city, temperature: $temperature, windSpeed: $windSpeed, '
         'mainDescription: $mainDescription, description: $description, pressure: $pressure, '
         'humidity: $humidity, visibility: $visibility, minTemp: $minTemp, maxTemp: $maxTemp, '
-        'feelsLike: $feelsLike, sunrise: $sunrise, sunset: $sunset}';
+        'feelsLike: $feelsLike, sunrise: $sunrise, sunset: $sunset, lastUpdated: $lastUpdated}';
   }
 
   WeatherFromDB copyWith({
@@ -58,6 +60,7 @@ class WeatherFromDB {
     double? minTemp,
     double? maxTemp,
     double? feelsLike,
+    DateTime? lastUpdated,
     DateTime? sunrise,
     DateTime? sunset,
   }) {
@@ -73,6 +76,7 @@ class WeatherFromDB {
       minTemp: minTemp ?? this.minTemp,
       maxTemp: maxTemp ?? this.maxTemp,
       feelsLike: feelsLike ?? this.feelsLike,
+      lastUpdated: lastUpdated ?? this.lastUpdated,
       sunrise: sunrise ?? this.sunrise,
       sunset: sunset ?? this.sunset,
     );

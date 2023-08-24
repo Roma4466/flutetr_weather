@@ -131,7 +131,7 @@ class Weather extends Equatable {
   }
 }
 
-extension on int {
+extension on String {
   WeatherCondition get toCondition {
     switch (this) {
       case 0:
