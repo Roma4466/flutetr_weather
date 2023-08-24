@@ -207,13 +207,13 @@ class Main extends Equatable {
 @JsonSerializable()
 class Sys extends Equatable {
   /// System parameter.
-  final int type;
+  final int? type;
 
   /// System ID.
-  final int id;
+  final int? id;
 
   /// Country code (2-character).
-  final String country;
+  final String? country;
 
   /// Sunrise time in UNIX, UTC.
   final int sunrise;
@@ -247,10 +247,10 @@ class Wind extends Equatable {
   final double speed;
 
   /// Wind direction in degrees.
-  final double deg;
+  final double? deg;
 
   /// Wind gust speed in meters per second.
-  final double gust;
+  final double? gust;
 
   Wind({
     required this.speed,

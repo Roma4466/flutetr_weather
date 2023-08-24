@@ -92,9 +92,9 @@ Map<String, dynamic> _$MainToJson(Main instance) => <String, dynamic>{
     };
 
 Sys _$SysFromJson(Map<String, dynamic> json) => Sys(
-      type: json['type'] as int,
-      id: json['id'] as int,
-      country: json['country'] as String,
+      type: json['type'] as int?,
+      id: json['id'] as int?,
+      country: json['country'] as String?,
       sunrise: json['sunrise'] as int,
       sunset: json['sunset'] as int,
     );
@@ -109,8 +109,8 @@ Map<String, dynamic> _$SysToJson(Sys instance) => <String, dynamic>{
 
 Wind _$WindFromJson(Map<String, dynamic> json) => Wind(
       speed: (json['speed'] as num).toDouble(),
-      deg: (json['deg'] as num).toDouble(),
-      gust: (json['gust'] as num).toDouble(),
+      deg: (json['deg'] as num?)?.toDouble(),
+      gust: (json['gust'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$WindToJson(Wind instance) => <String, dynamic>{

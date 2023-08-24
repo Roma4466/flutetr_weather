@@ -32,13 +32,3 @@ class OpenWeatherMapClient implements WeatherApi {
         city, "6b0423304b20ad534ccceecc6d3c729a");
   }
 }
-
-void main() async {
-  final logger = Logger();
-  final dio = Dio();
-  dio.options.headers["Demo-Header"] = "demo header";
-  final client = OpenWeatherMapClient();
-
-  final result = await client.getWeatherByName('Kyiv');
-  logger.i(result);
-}
