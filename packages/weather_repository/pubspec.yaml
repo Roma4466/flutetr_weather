@@ -9,8 +9,10 @@ environment:
 dependencies:
   equatable: ^2.0.5
   json_annotation: ^4.6.0
-  open_meteo_api:
-    path: ../open_meteo_api
+  weather_api_provider:
+    path: ../weather_api_provider
+  weather_api_client:
+    path: ../weather_api_client
   db:
     path: ../db
 

@@ -85,7 +85,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `WeatherFromDB` (`id` TEXT PRIMARY KEY AUTOINCREMENT NOT NULL, `city` TEXT NOT NULL, `temperature` REAL NOT NULL, `windSpeed` REAL NOT NULL, `windDirection` INTEGER NOT NULL, `weatherCode` INTEGER NOT NULL, `isDay` INTEGER NOT NULL, `time` TEXT NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `WeatherFromDB` (`id` TEXT PRIMARY KEY AUTOINCREMENT NOT NULL, `city` TEXT NOT NULL, `temperature` REAL NOT NULL, `windSpeed` REAL NOT NULL, `mainDescription` TEXT NOT NULL, `description` TEXT NOT NULL, `pressure` INTEGER NOT NULL, `humidity` INTEGER NOT NULL, `visibility` INTEGER NOT NULL, `minTemp` REAL NOT NULL, `maxTemp` REAL NOT NULL, `feelsLike` REAL NOT NULL, `sunrise` INTEGER NOT NULL, `sunset` INTEGER NOT NULL)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -112,10 +112,16 @@ class _$WeatherDao extends WeatherDao {
                   'city': item.city,
                   'temperature': item.temperature,
                   'windSpeed': item.windSpeed,
-                  'windDirection': item.windDirection,
-                  'weatherCode': item.weatherCode,
-                  'isDay': item.isDay,
-                  'time': item.time
+                  'mainDescription': item.mainDescription,
+                  'description': item.description,
+                  'pressure': item.pressure,
+                  'humidity': item.humidity,
+                  'visibility': item.visibility,
+                  'minTemp': item.minTemp,
+                  'maxTemp': item.maxTemp,
+                  'feelsLike': item.feelsLike,
+                  'sunrise': _dateTimeConverter.encode(item.sunrise),
+                  'sunset': _dateTimeConverter.encode(item.sunset)
                 },
             changeListener),
         _weatherFromDBUpdateAdapter = UpdateAdapter(
@@ -127,10 +133,16 @@ class _$WeatherDao extends WeatherDao {
                   'city': item.city,
                   'temperature': item.temperature,
                   'windSpeed': item.windSpeed,
-                  'windDirection': item.windDirection,
-                  'weatherCode': item.weatherCode,
-                  'isDay': item.isDay,
-                  'time': item.time
+                  'mainDescription': item.mainDescription,
+                  'description': item.description,
+                  'pressure': item.pressure,
+                  'humidity': item.humidity,
+                  'visibility': item.visibility,
+                  'minTemp': item.minTemp,
+                  'maxTemp': item.maxTemp,
+                  'feelsLike': item.feelsLike,
+                  'sunrise': _dateTimeConverter.encode(item.sunrise),
+                  'sunset': _dateTimeConverter.encode(item.sunset)
                 },
             changeListener),
         _weatherFromDBDeletionAdapter = DeletionAdapter(
@@ -142,10 +154,16 @@ class _$WeatherDao extends WeatherDao {
                   'city': item.city,
                   'temperature': item.temperature,
                   'windSpeed': item.windSpeed,
-                  'windDirection': item.windDirection,
-                  'weatherCode': item.weatherCode,
-                  'isDay': item.isDay,
-                  'time': item.time
+                  'mainDescription': item.mainDescription,
+                  'description': item.description,
+                  'pressure': item.pressure,
+                  'humidity': item.humidity,
+                  'visibility': item.visibility,
+                  'minTemp': item.minTemp,
+                  'maxTemp': item.maxTemp,
+                  'feelsLike': item.feelsLike,
+                  'sunrise': _dateTimeConverter.encode(item.sunrise),
+                  'sunset': _dateTimeConverter.encode(item.sunset)
                 },
             changeListener);
 
@@ -168,10 +186,16 @@ class _$WeatherDao extends WeatherDao {
             city: row['city'] as String,
             temperature: row['temperature'] as double,
             windSpeed: row['windSpeed'] as double,
-            windDirection: row['windDirection'] as int,
-            weatherCode: row['weatherCode'] as int,
-            isDay: row['isDay'] as int,
-            time: row['time'] as String),
+            mainDescription: row['mainDescription'] as String,
+            description: row['description'] as String,
+            pressure: row['pressure'] as int,
+            humidity: row['humidity'] as int,
+            visibility: row['visibility'] as int,
+            minTemp: row['minTemp'] as double,
+            maxTemp: row['maxTemp'] as double,
+            feelsLike: row['feelsLike'] as double,
+            sunrise: _dateTimeConverter.decode(row['sunrise'] as int),
+            sunset: _dateTimeConverter.decode(row['sunset'] as int)),
         queryableName: 'WeatherForDB',
         isView: false);
   }
@@ -183,10 +207,16 @@ class _$WeatherDao extends WeatherDao {
             city: row['city'] as String,
             temperature: row['temperature'] as double,
             windSpeed: row['windSpeed'] as double,
-            windDirection: row['windDirection'] as int,
-            weatherCode: row['weatherCode'] as int,
-            isDay: row['isDay'] as int,
-            time: row['time'] as String));
+            mainDescription: row['mainDescription'] as String,
+            description: row['description'] as String,
+            pressure: row['pressure'] as int,
+            humidity: row['humidity'] as int,
+            visibility: row['visibility'] as int,
+            minTemp: row['minTemp'] as double,
+            maxTemp: row['maxTemp'] as double,
+            feelsLike: row['feelsLike'] as double,
+            sunrise: _dateTimeConverter.decode(row['sunrise'] as int),
+            sunset: _dateTimeConverter.decode(row['sunset'] as int)));
   }
 
   @override
@@ -196,10 +226,16 @@ class _$WeatherDao extends WeatherDao {
             city: row['city'] as String,
             temperature: row['temperature'] as double,
             windSpeed: row['windSpeed'] as double,
-            windDirection: row['windDirection'] as int,
-            weatherCode: row['weatherCode'] as int,
-            isDay: row['isDay'] as int,
-            time: row['time'] as String),
+            mainDescription: row['mainDescription'] as String,
+            description: row['description'] as String,
+            pressure: row['pressure'] as int,
+            humidity: row['humidity'] as int,
+            visibility: row['visibility'] as int,
+            minTemp: row['minTemp'] as double,
+            maxTemp: row['maxTemp'] as double,
+            feelsLike: row['feelsLike'] as double,
+            sunrise: _dateTimeConverter.decode(row['sunrise'] as int),
+            sunset: _dateTimeConverter.decode(row['sunset'] as int)),
         arguments: [id]);
   }
 
@@ -224,3 +260,6 @@ class _$WeatherDao extends WeatherDao {
     await _weatherFromDBDeletionAdapter.delete(weather);
   }
 }
+
+// ignore_for_file: unused_element
+final _dateTimeConverter = DateTimeConverter();

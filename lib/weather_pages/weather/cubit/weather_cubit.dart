@@ -21,7 +21,7 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
 
     try {
       final weather = Weather.fromDb(
-        await _weatherRepository.getWeather(city),
+        await _weatherRepository.getWeatherByName(city),
       );
       final units = state.temperatureUnits;
       final value = units.isFahrenheit
@@ -61,7 +61,7 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
     if (state.weather == Weather.empty) return;
     try {
       final weather = Weather.fromDb(
-        await _weatherRepository.getWeather(state.weather.location),
+        await _weatherRepository.getWeatherByName(state.weather.location),
       );
       final units = state.temperatureUnits;
       final value = units.isFahrenheit

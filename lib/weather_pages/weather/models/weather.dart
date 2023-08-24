@@ -29,26 +29,23 @@ class Weather extends Equatable {
 
   factory Weather.fromDb(WeatherFromDB weather) {
     return Weather(
-      condition: weather.weatherCode.toCondition,
+      condition: WeatherCondition.unknown,
       lastUpdated: DateTime.now(),
       location: weather.city,
       temperature: Temperature(
-          value: weather.temperature, minValue: 0, maxValue: 0, feelsLike: 0),
-      mainDescription: '',
-      // Set the appropriate values
-      description: '',
-      // Set the appropriate values
-      pressure: 0,
-      // Set the appropriate values
-      humidity: 0,
-      // Set the appropriate values
-      visibility: 0,
-      // Set the appropriate values
-      windSpeed: 0,
-      // Set the appropriate values
-      sunrise: DateTime.now(),
-      // Set the appropriate values
-      sunset: DateTime.now(), // Set the appropriate values
+        value: weather.temperature,
+        minValue: weather.minTemp,
+        maxValue: weather.maxTemp,
+        feelsLike: weather.feelsLike,
+      ),
+      mainDescription: weather.mainDescription,
+      description: weather.description,
+      pressure: weather.pressure,
+      humidity: weather.humidity,
+      visibility: weather.visibility,
+      windSpeed: weather.windSpeed,
+      sunrise: weather.sunrise,
+      sunset: weather.sunset,
     );
   }
 

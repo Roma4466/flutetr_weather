@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
-import 'package:weather_api/weather_api.dart';
+import 'package:weather_api_provider/weather_api_provider.dart';
 
 part 'open_weather_map_api_provider.g.dart';
 

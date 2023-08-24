@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
-import 'package:open_weather_map_provider/src/provider/open_weather_map_api_provider.dart';
-import 'package:weather_api/weather_api.dart';
+import 'package:weather_api_client/src/provider/open_weather_map_api_provider.dart';
+import 'package:weather_api_provider/weather_api_provider.dart';
 
 class OpenWeatherMapClient implements WeatherApi {
   final OpenWeatherMapApiProvider openWeatherMapApiProvider;

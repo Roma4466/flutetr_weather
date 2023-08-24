@@ -1,7 +1,4 @@
 library db;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'db/db.dart';
+export 'db_provider.dart';

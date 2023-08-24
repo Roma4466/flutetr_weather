@@ -1,27 +1,39 @@
 import 'dart:async';
 
-import 'package:db/db/db.dart';
-import 'package:db/db_provider.dart';
-import 'package:open_meteo_api/open_meteo_api.dart';
+import 'package:db/db.dart';
+import 'package:weather_api_client/open_weather_map_client.dart';
+import 'package:weather_api_provider/weather_api_provider.dart';
 
 class WeatherRepository {
-  WeatherRepository({OpenMeteoApiClient? weatherApiClient})
-      : _weatherApiClient = weatherApiClient ?? OpenMeteoApiClient(),
+  WeatherRepository({WeatherApi? weatherApiClient})
+      : _weatherApiClient = weatherApiClient ?? OpenWeatherMapClient(),
         _dbProvider = DbProvider() {
     _dbProvider.initializeDatabase();
   }
 
-  final OpenMeteoApiClient _weatherApiClient;
+  final WeatherApi _weatherApiClient;
   final DbProvider _dbProvider;
 
-  Future<WeatherFromDB> getWeather(String city) async {
-    final location = await _weatherApiClient.locationSearch(city);
-    final weather = await _weatherApiClient.getWeather(
-      latitude: location.latitude,
-      longitude: location.longitude,
-    );
+  Future<WeatherFromDB> getWeatherByName(String city) async {
+    final weather = await _weatherApiClient.getWeatherByName(city);
+    return await saveAndReturnWeather(weather);
+  }
 
-    final modifiedWeather = weather.toDb(location.name);
+  Future<WeatherFromDB> getWeatherByLocation(
+    double latitude,
+    double longitude,
+  ) async {
+    final weather = await _weatherApiClient.getWeatherByCoordinates(
+      latitude,
+      longitude,
+    );
+    return await saveAndReturnWeather(weather);
+  }
+
+  Future<WeatherFromDB> saveAndReturnWeather(
+    OpenWeatherResponse weather,
+  ) async {
+    final modifiedWeather = weather.toDb();
     _dbProvider.createWeather(modifiedWeather);
     print('database action: successfully added weather');
 
@@ -31,16 +43,28 @@ class WeatherRepository {
   Stream<List<WeatherFromDB>> getWeathers() => _dbProvider.getWeathers();
 }
 
-extension on WeatherEntity {
-  WeatherFromDB toDb(String city) {
+extension on OpenWeatherResponse {
+  WeatherFromDB toDb() {
     return WeatherFromDB(
-      city: city,
-      temperature: this.current_weather.temperature,
-      windSpeed: this.current_weather.temperature,
-      windDirection: this.current_weather.winddirection,
-      weatherCode: this.current_weather.weathercode,
-      isDay: this.current_weather.is_day,
-      time: this.current_weather.time,
+      city: this.cityName,
+      temperature: this.main.temp,
+      windSpeed: this.wind.speed,
+      mainDescription: this.weather[0].main,
+      description: this.weather[0].description,
+      pressure: this.main.pressure,
+      humidity: this.main.humidity,
+      visibility: this.visibility,
+      minTemp: this.main.tempMin,
+      maxTemp: this.main.tempMax,
+      feelsLike: this.main.feelsLike,
+      sunrise: DateTime.fromMillisecondsSinceEpoch(
+        this.sys.sunrise * 10000,
+        isUtc: true,
+      ),
+      sunset: DateTime.fromMillisecondsSinceEpoch(
+        this.sys.sunset * 10000,
+        isUtc: true,
+      ),
     );
   }
 }

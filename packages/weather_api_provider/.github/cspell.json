@@ -16,6 +16,6 @@
   ],
   "useGitignore": true,
   "words": [
-    "open_weather_map_provider"
+    "weather_api_provider"
   ]
 }

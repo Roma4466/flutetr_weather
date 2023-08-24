@@ -482,13 +482,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.2"
-  open_meteo_api:
-    dependency: transitive
-    description:
-      path: "packages/open_meteo_api"
-      relative: true
-    source: path
-    version: "1.0.0+1"
   package_config:
     dependency: transitive
     description:
@@ -846,6 +839,20 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  weather_api_client:
+    dependency: transitive
+    description:
+      path: "packages/weather_api_client"
+      relative: true
+    source: path
+    version: "0.1.0+1"
+  weather_api_provider:
+    dependency: transitive
+    description:
+      path: "packages/weather_api_provider"
+      relative: true
+    source: path
+    version: "0.1.0+1"
   weather_repository:
     dependency: "direct main"
     description:
