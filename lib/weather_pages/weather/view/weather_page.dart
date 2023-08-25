@@ -1,30 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_weather/weather_pages/search/search.dart';
 import 'package:flutter_weather/theme/theme.dart';
+import 'package:flutter_weather/weather_pages/search/search.dart';
 import 'package:flutter_weather/weather_pages/weather/weather.dart';
 import 'package:weather_repository/weather_repository.dart';
 
 class WeatherPage extends StatelessWidget {
-  const WeatherPage({super.key});
+  const WeatherPage({super.key, this.weather});
+
+  final Weather? weather;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => WeatherCubit(context.read<WeatherRepository>()),
-      child: const WeatherView(),
+      child: WeatherView(weather: weather),
     );
   }
 }
 
 class WeatherView extends StatefulWidget {
-  const WeatherView({super.key});
+  const WeatherView({super.key, this.weather});
+
+  final Weather? weather;
 
   @override
-  State<WeatherView> createState() => _WeatherViewState();
+  State<WeatherView> createState() => _WeatherViewState(weather: weather);
 }
 
 class _WeatherViewState extends State<WeatherView> {
+  _WeatherViewState({this.weather});
+
+  final Weather? weather;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

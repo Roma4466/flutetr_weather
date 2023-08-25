@@ -15,6 +15,19 @@ class WeatherPopulated extends StatelessWidget {
   final TemperatureUnits units;
   final ValueGetter<Future<void>> onRefresh;
 
+  static Route<String> route({
+    required Weather weather,
+    required TemperatureUnits units,
+    required ValueGetter<Future<void>> onRefresh,
+  }) {
+    return MaterialPageRoute(
+        builder: (_) => WeatherPopulated(
+              weather: weather,
+              units: units,
+              onRefresh: onRefresh,
+            ));
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
