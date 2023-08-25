@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_weather/weather_pages/weather/weather.dart';
+import 'package:weather_animation/weather_animation.dart';
 import 'package:weather_repository/weather_repository.dart';
 
 class WeatherPopulated extends StatelessWidget {
@@ -19,7 +20,7 @@ class WeatherPopulated extends StatelessWidget {
     final theme = Theme.of(context);
     return Stack(
       children: [
-        _WeatherBackground(weather.visibility),
+        _WeatherBackground(weather.visibility, weather.condition),
         RefreshIndicator(
           onRefresh: onRefresh,
           child: SingleChildScrollView(
@@ -28,8 +29,7 @@ class WeatherPopulated extends StatelessWidget {
             child: Center(
               child: Column(
                 children: [
-                  const SizedBox(height: 48),
-                  _WeatherIcon(condition: weather.condition),
+                  const SizedBox(height: 300),
                   Text(
                     weather.location,
                     style: theme.textTheme.displayMedium?.copyWith(
@@ -37,19 +37,64 @@ class WeatherPopulated extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    weather.formattedTemperature(units),
-                    style: theme.textTheme.displaySmall?.copyWith(
-                      fontWeight: FontWeight.bold,
+                    weather.description,
+                    style: theme.textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.w400,
                     ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Current temperature:',
+                            style: theme.textTheme.labelLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            formattedTemperature(
+                                weather.temperature.value, units),
+                            style: theme.textTheme.displaySmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(width: 24),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Feels like:',
+                            style: theme.textTheme.labelLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            formattedTemperature(
+                                weather.temperature.feelsLike, units),
+                            style: theme.textTheme.displaySmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                   Text(
                     '''Last Updated at ${TimeOfDay.fromDateTime(weather.lastUpdated).format(context)}''',
                   ),
                   Text(
-                    'Main: ${weather.mainDescription}, description: ${weather.description}, visibility: ${weather.visibility}',
-                    style: theme.textTheme.displaySmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    'Minimum temperature: ${formattedTemperature(weather.temperature.minValue, units)}',
+                  ),
+                  Text(
+                    'Maximum temperature: ${formattedTemperature(weather.temperature.maxValue, units)}',
+                  ),
+                  Text(
+                    'Visibility: ${(weather.visibility / 1000).toStringAsFixed(1)} km',
                   ),
                 ],
               ),
@@ -61,64 +106,33 @@ class WeatherPopulated extends StatelessWidget {
   }
 }
 
-class _WeatherIcon extends StatelessWidget {
-  const _WeatherIcon({required this.condition});
-
-  static const _iconSize = 75.0;
-
-  final WeatherCondition condition;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      condition.toEmoji,
-      style: const TextStyle(fontSize: _iconSize),
-    );
-  }
-}
-
 class _WeatherBackground extends StatelessWidget {
-  const _WeatherBackground(int visibility) : visibility = visibility / 10000;
+  const _WeatherBackground(int visibility, this.weatherCondition)
+      : visibility = visibility / 10000;
   final double visibility;
+  final WeatherCondition weatherCondition;
 
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context).primaryColor;
-    return SizedBox.expand(
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            stops: const [0.25, 0.75, 0.90, 1.0],
-            colors: [
-              color.blurred(visibility),
-              color.brighten().blurred(visibility),
-              color.brighten(33).blurred(visibility),
-              color.brighten(33).blurred(visibility),
-            ],
-          ),
-        ),
-      ),
+    return WrapperScene(
+      children: [
+        if (weatherCondition == WeatherCondition.clear) SunWidget(),
+        if (weatherCondition == WeatherCondition.cloudy) CloudWidget(),
+        if (weatherCondition == WeatherCondition.rainy) RainWidget(),
+        if (weatherCondition == WeatherCondition.snowy) SnowWidget(),
+      ],
+      colors: [
+        color.blurred(visibility),
+        Colors.white.blurred(visibility),
+      ],
+      sizeCanvas: Size(MediaQuery.of(context).size.width,
+          MediaQuery.of(context).size.height),
     );
   }
 }
 
 extension on Color {
-  Color brighten([int percent = 10]) {
-    assert(
-      1 <= percent && percent <= 100,
-      'percentage must be between 1 and 100 but was $percent',
-    );
-    final p = percent / 100;
-    return Color.fromARGB(
-      alpha,
-      red + ((255 - red) * p).round(),
-      green + ((255 - green) * p).round(),
-      blue + ((255 - blue) * p).round(),
-    );
-  }
-
   Color blurred([double percent = 0.1]) {
     final p = 0.5 + percent / 2;
     return Color.fromARGB(
@@ -130,14 +144,11 @@ extension on Color {
   }
 }
 
-extension on Weather {
-  String formattedTemperature(TemperatureUnits units) {
-    double formattedValue = units.isCelsius
-        ? temperature.value.toCelsius()
-        : temperature.value.toFahrenheit();
-    String formattedValueString = formattedValue.toStringAsFixed(0);
-    return '$formattedValueString°${units.isCelsius ? 'C' : 'F'}';
-  }
+String formattedTemperature(double value, TemperatureUnits units) {
+  double formattedValue =
+      units.isCelsius ? value.toCelsius() : value.toFahrenheit();
+  String formattedValueString = formattedValue.toStringAsFixed(0);
+  return '$formattedValueString°${units.isCelsius ? 'C' : 'F'}';
 }
 
 extension on double {
