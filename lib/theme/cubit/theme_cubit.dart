@@ -34,6 +34,10 @@ extension on Weather {
         return Colors.blueGrey;
       case WeatherCondition.rainy:
         return Colors.indigoAccent;
+      case WeatherCondition.thunder:
+        return Colors.indigo;
+      case WeatherCondition.drizzle:
+        return Colors.lightBlue;
       case WeatherCondition.unknown:
         return ThemeCubit.defaultColor;
     }

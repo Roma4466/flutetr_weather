@@ -20,7 +20,7 @@ class WeatherPopulated extends StatelessWidget {
     final theme = Theme.of(context);
     return Stack(
       children: [
-        _WeatherBackground(weather.visibility, weather.condition),
+        _WeatherBackground(weather),
         RefreshIndicator(
           onRefresh: onRefresh,
           child: SingleChildScrollView(
@@ -96,6 +96,9 @@ class WeatherPopulated extends StatelessWidget {
                   Text(
                     'Visibility: ${(weather.visibility / 1000).toStringAsFixed(1)} km',
                   ),
+                  Text(
+                    'Wind speed: ${(weather.windSpeed).toStringAsFixed(1)} m/c',
+                  ),
                 ],
               ),
             ),
@@ -107,10 +110,13 @@ class WeatherPopulated extends StatelessWidget {
 }
 
 class _WeatherBackground extends StatelessWidget {
-  const _WeatherBackground(int visibility, this.weatherCondition)
-      : visibility = visibility / 10000;
+  _WeatherBackground(Weather weather)
+      : visibility = weather.visibility / 10000,
+        weatherCondition = weather.condition,
+        windSpeed = weather.windSpeed;
   final double visibility;
   final WeatherCondition weatherCondition;
+  final double windSpeed;
 
   @override
   Widget build(BuildContext context) {
@@ -121,6 +127,11 @@ class _WeatherBackground extends StatelessWidget {
         if (weatherCondition == WeatherCondition.cloudy) CloudWidget(),
         if (weatherCondition == WeatherCondition.rainy) RainWidget(),
         if (weatherCondition == WeatherCondition.snowy) SnowWidget(),
+        if (weatherCondition == WeatherCondition.thunder) ThunderWidget(),
+        if (windSpeed > 4)
+          WindWidget(
+            windConfig: WindConfig(windGap: 60 / windSpeed),
+          )
       ],
       colors: [
         color.blurred(visibility),
