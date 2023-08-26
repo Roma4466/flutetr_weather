@@ -184,7 +184,7 @@ class _$WeatherDao extends WeatherDao {
 
   @override
   Stream<List<WeatherFromDB>> getAllWeathers() {
-    return _queryAdapter.queryListStream('SELECT * FROM WeatherForDB',
+    return _queryAdapter.queryListStream('SELECT * FROM WeatherFromDB',
         mapper: (Map<String, Object?> row) => WeatherFromDB(
             city: row['city'] as String,
             temperature: row['temperature'] as double,
@@ -200,13 +200,13 @@ class _$WeatherDao extends WeatherDao {
             lastUpdated: _dateTimeConverter.decode(row['lastUpdated'] as int),
             sunrise: _dateTimeConverter.decode(row['sunrise'] as int),
             sunset: _dateTimeConverter.decode(row['sunset'] as int)),
-        queryableName: 'WeatherForDB',
+        queryableName: 'WeatherFromDB',
         isView: false);
   }
 
   @override
   Future<List<WeatherFromDB>> getAllWeathersInList() async {
-    return _queryAdapter.queryList('SELECT * FROM WeatherForDB',
+    return _queryAdapter.queryList('SELECT * FROM WeatherFromDB',
         mapper: (Map<String, Object?> row) => WeatherFromDB(
             city: row['city'] as String,
             temperature: row['temperature'] as double,
@@ -225,8 +225,8 @@ class _$WeatherDao extends WeatherDao {
   }
 
   @override
-  Future<WeatherFromDB?> getWeatherById(int id) async {
-    return _queryAdapter.query('SELECT * FROM WeatherForDB WHERE id = ?1',
+  Future<WeatherFromDB?> getWeatherById(String id) async {
+    return _queryAdapter.query('SELECT * FROM WeatherFromDB WHERE id = ?1',
         mapper: (Map<String, Object?> row) => WeatherFromDB(
             city: row['city'] as String,
             temperature: row['temperature'] as double,
@@ -247,7 +247,13 @@ class _$WeatherDao extends WeatherDao {
 
   @override
   Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('DELETE FROM WeatherForDB');
+    await _queryAdapter.queryNoReturn('DELETE FROM WeatherFromDB');
+  }
+
+  @override
+  Future<void> deleteWeatherById(String id) async {
+    await _queryAdapter.queryNoReturn('DELETE FROM WeatherFromDB WHERE id = ?1',
+        arguments: [id]);
   }
 
   @override

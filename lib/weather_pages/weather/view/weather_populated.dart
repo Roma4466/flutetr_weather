@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_weather/weather_pages/weather/weather.dart';
 import 'package:weather_animation/weather_animation.dart';
 import 'package:weather_repository/weather_repository.dart';
+import 'package:flutter_weather/extensions/extensions.dart';
 
 class WeatherPopulated extends StatelessWidget {
   const WeatherPopulated({
@@ -14,19 +15,6 @@ class WeatherPopulated extends StatelessWidget {
   final Weather weather;
   final TemperatureUnits units;
   final ValueGetter<Future<void>> onRefresh;
-
-  static Route<String> route({
-    required Weather weather,
-    required TemperatureUnits units,
-    required ValueGetter<Future<void>> onRefresh,
-  }) {
-    return MaterialPageRoute(
-        builder: (_) => WeatherPopulated(
-              weather: weather,
-              units: units,
-              onRefresh: onRefresh,
-            ));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -152,18 +140,6 @@ class _WeatherBackground extends StatelessWidget {
       ],
       sizeCanvas: Size(MediaQuery.of(context).size.width,
           MediaQuery.of(context).size.height),
-    );
-  }
-}
-
-extension on Color {
-  Color blurred([double percent = 0.1]) {
-    final p = 0.5 + percent / 2;
-    return Color.fromARGB(
-      alpha,
-      (red * p).round(),
-      (green * p).round(),
-      (blue * p).round(),
     );
   }
 }

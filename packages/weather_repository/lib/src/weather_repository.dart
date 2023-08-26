@@ -41,6 +41,11 @@ class WeatherRepository {
   }
 
   Stream<List<WeatherFromDB>> getWeathers() => _dbProvider.getWeathers();
+
+  Future<void> deleteWeather(String id) => _dbProvider.deleteWeather(id);
+
+  Future<void> undoDeletion(String id) => _dbProvider.undoDeletion(id);
+  Future<void> deleteAll() => _dbProvider.deleteAll();
 }
 
 extension on OpenWeatherResponse {

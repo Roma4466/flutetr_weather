@@ -15,14 +15,16 @@ final class HistoryState extends Equatable {
   final HistoryViewFilter filter;
   final Weather? lastDeletedWeather;
 
-  Iterable<Weather> get filteredTodos => filter.apply(weathers);
+  Iterable<Weather> get filteredWeathers => filter.apply(weathers);
 
   HistoryState copyWith({
+    HistoryStatus Function()? status,
     List<Weather> Function()? weathers,
     HistoryViewFilter Function()? filter,
     Weather? Function()? lastDeletedWeather,
   }) {
     return HistoryState(
+      status: status != null ? status() : this.status,
       weathers: weathers != null ? weathers() : this.weathers,
       filter: filter != null ? filter() : this.filter,
       lastDeletedWeather: lastDeletedWeather != null

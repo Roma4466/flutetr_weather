@@ -78,7 +78,7 @@ class HistoryView extends StatelessWidget {
                   childAspectRatio: 3 / 2,
                   crossAxisSpacing: 20,
                   mainAxisSpacing: 20),
-              children: state.weathers
+              children: state.filteredWeathers
                   .map(
                     (weather) => WeatherTile(weather),
                   )

@@ -20,7 +20,7 @@ class HistoryOptionsButton extends StatelessWidget {
       onSelected: (options) {
         switch (options) {
           case HistoryOption.deleteAll:
-            context.read<HistoryBloc>().add(const DeleteAll());
+            context.read<HistoryBloc>().add(const HistoryDeleteAll());
         }
       },
       itemBuilder: (context) {

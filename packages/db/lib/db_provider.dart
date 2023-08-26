@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'dart:math' show max;
 
 import 'db/db.dart';
 
 class DbProvider {
-  AppDatabase? _database;
+  late AppDatabase _database;
+  WeatherFromDB? lastDeleted;
 
   static final DbProvider _shared = DbProvider._sharedInstance();
 
@@ -13,14 +13,27 @@ class DbProvider {
   factory DbProvider() => _shared;
 
   Future<void> initializeDatabase() async {
-    _database ??=
+    _database =
         await $FloorAppDatabase.databaseBuilder('edmt_database.db').build();
   }
 
   Future<void> createWeather(WeatherFromDB weather) async {
-    await _database!.weatherDao.insertWeather(weather);
+    await _database.weatherDao.insertWeather(weather);
   }
 
   Stream<List<WeatherFromDB>> getWeathers() =>
-      _database!.weatherDao.getAllWeathers();
+      _database.weatherDao.getAllWeathers();
+
+  Future<void> deleteWeather(String id) async {
+    lastDeleted = await _database.weatherDao.getWeatherById(id);
+    await _database.weatherDao.deleteWeatherById(id);
+  }
+
+  Future<void> undoDeletion(String id) async {
+    assert(
+        lastDeleted != null && lastDeleted!.id == id, 'Cannot undo deletion');
+    _database.weatherDao.insertWeather(lastDeleted!);
+  }
+
+  Future<void> deleteAll() => _database.weatherDao.deleteAll();
 }

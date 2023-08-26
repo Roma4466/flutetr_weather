@@ -10,6 +10,16 @@ class WeatherPage extends StatelessWidget {
 
   final Weather? weather;
 
+  //this route is for history page only
+  //so i can reuse this page
+  static Route<String> route(BuildContext context, Weather weather) {
+    context.read<ThemeCubit>().updateTheme(weather);
+    return MaterialPageRoute(
+        builder: (_) => WeatherPage(
+              weather: weather,
+            ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -49,7 +59,17 @@ class _WeatherViewState extends State<WeatherView> {
           builder: (context, state) {
             switch (state.status) {
               case WeatherStatus.initial:
-                return const WeatherEmpty();
+                if (weather == null) {
+                  return const WeatherEmpty();
+                } else {
+                  return WeatherPopulated(
+                    weather: weather!,
+                    units: state.temperatureUnits,
+                    onRefresh: () {
+                      return context.read<WeatherCubit>().refreshWeather();
+                    },
+                  );
+                }
               case WeatherStatus.loading:
                 return const WeatherLoading();
               case WeatherStatus.success:

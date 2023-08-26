@@ -10,6 +10,7 @@ part 'weather.g.dart';
 @JsonSerializable()
 class Weather extends Equatable {
   const Weather({
+    required this.id,
     required this.condition,
     required this.lastUpdated,
     required this.location,
@@ -29,6 +30,7 @@ class Weather extends Equatable {
 
   factory Weather.fromDb(WeatherFromDB weather) {
     return Weather(
+      id: weather.id,
       condition: weather.mainDescription.toCondition,
       lastUpdated: DateTime.now(),
       location: weather.city,
@@ -50,6 +52,7 @@ class Weather extends Equatable {
   }
 
   static final empty = Weather(
+    id: '',
     condition: WeatherCondition.unknown,
     lastUpdated: DateTime(0),
     temperature: const Temperature(
@@ -69,6 +72,7 @@ class Weather extends Equatable {
     sunset: DateTime.now(),
   );
 
+  final String id;
   final WeatherCondition condition;
   final DateTime lastUpdated;
   final String location;
@@ -84,6 +88,7 @@ class Weather extends Equatable {
 
   @override
   List<Object> get props => [
+        id,
         condition,
         lastUpdated,
         location,
@@ -101,6 +106,7 @@ class Weather extends Equatable {
   Map<String, dynamic> toJson() => _$WeatherToJson(this);
 
   Weather copyWith({
+    String? id,
     WeatherCondition? condition,
     DateTime? lastUpdated,
     String? location,
@@ -115,6 +121,7 @@ class Weather extends Equatable {
     DateTime? sunset,
   }) {
     return Weather(
+      id: id ?? this.id,
       condition: condition ?? this.condition,
       lastUpdated: lastUpdated ?? this.lastUpdated,
       location: location ?? this.location,

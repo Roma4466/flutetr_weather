@@ -11,8 +11,8 @@ final class HistorySubscriptionRequested extends HistoryEvent {
   const HistorySubscriptionRequested();
 }
 
-final class WeatherItemDeleted extends HistoryEvent {
-  const WeatherItemDeleted(this.weather);
+final class HistoryWeatherDeleted extends HistoryEvent {
+  const HistoryWeatherDeleted(this.weather);
 
   final Weather weather;
 
@@ -33,6 +33,6 @@ class HistoryFilterChanged extends HistoryEvent {
   List<Object> get props => [filter];
 }
 
-final class DeleteAll extends HistoryEvent {
-  const DeleteAll();
+final class HistoryDeleteAll extends HistoryEvent {
+  const HistoryDeleteAll();
 }

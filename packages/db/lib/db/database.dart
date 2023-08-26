@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart' as sqflite;
 
 import 'datetime_conventer.dart';
 import 'weather_dao.dart';
-import 'weather_for_db.dart';
+import 'weather_from_db.dart';
 
 part 'database.g.dart';
 
