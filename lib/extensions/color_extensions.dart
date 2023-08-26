@@ -1,10 +1,10 @@
 import 'dart:ui';
 
-extension BrightenExtension on Color{
+extension BrightenExtension on Color {
   Color brighten([int percent = 10]) {
     assert(
-    1 <= percent && percent <= 100,
-    'percentage must be between 1 and 100 but was $percent',
+      1 <= percent && percent <= 100,
+      'percentage must be between 1 and 100 but was $percent',
     );
     final p = percent / 100;
     return Color.fromARGB(

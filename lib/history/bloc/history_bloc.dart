@@ -7,7 +7,6 @@ import 'package:weather_repository/weather_repository.dart';
 import '../models/history_view_filter.dart';
 
 part 'history_event.dart';
-
 part 'history_state.dart';
 
 class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {

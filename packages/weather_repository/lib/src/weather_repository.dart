@@ -45,6 +45,7 @@ class WeatherRepository {
   Future<void> deleteWeather(String id) => _dbProvider.deleteWeather(id);
 
   Future<void> undoDeletion(String id) => _dbProvider.undoDeletion(id);
+
   Future<void> deleteAll() => _dbProvider.deleteAll();
 }
 

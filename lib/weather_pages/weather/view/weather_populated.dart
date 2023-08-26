@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_weather/extensions/extensions.dart';
 import 'package:flutter_weather/weather_pages/weather/weather.dart';
 import 'package:weather_animation/weather_animation.dart';
 import 'package:weather_repository/weather_repository.dart';
-import 'package:flutter_weather/extensions/extensions.dart';
 
 class WeatherPopulated extends StatelessWidget {
   const WeatherPopulated({

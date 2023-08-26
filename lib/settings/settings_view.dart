@@ -19,7 +19,7 @@ class _SettingsViewState extends State<SettingsView> {
         children: <Widget>[
           BlocBuilder<WeatherCubit, WeatherState>(
             buildWhen: (previous, current) =>
-            previous.temperatureUnits != current.temperatureUnits,
+                previous.temperatureUnits != current.temperatureUnits,
             builder: (context, state) {
               return ListTile(
                 title: const Text('Temperature Units'),
