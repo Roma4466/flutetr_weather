@@ -19,6 +19,8 @@ class DbProvider {
 
   Future<void> createWeather(WeatherFromDB weather) async {
     await _database.weatherDao.insertWeather(weather);
+    final weathers = await _database.weatherDao.getAllWeathersInList();
+    final tmp = await _database.weatherDao.getWeatherById(weather.id!);
   }
 
   Stream<List<WeatherFromDB>> getWeathers() =>

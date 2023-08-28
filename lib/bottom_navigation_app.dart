@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_weather/history/history.dart';
 import 'package:flutter_weather/settings/settings.dart';
 import 'package:flutter_weather/theme/cubit/theme_cubit.dart';
-import 'package:flutter_weather/weather_pages/search_app.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:weather_repository/weather_repository.dart';
+
+import 'weather_pages/weather/view/view.dart';
 
 class BottomNavigationBarApp extends StatelessWidget {
   const BottomNavigationBarApp(
@@ -20,7 +21,7 @@ class BottomNavigationBarApp extends StatelessWidget {
     return RepositoryProvider.value(
       value: _weatherRepository,
       child: BlocProvider(
-        create: (context) => ThemeCubit(),
+        create: (_) => ThemeCubit(),
         child: BlocBuilder<ThemeCubit, Color>(
           builder: (context, color) {
             return MaterialApp(
@@ -53,7 +54,7 @@ class BottomNavigationBarWidget extends StatefulWidget {
 class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
-    WeatherApp(),
+    WeatherPage(),
     HistoryPage(),
     SettingsPage(),
   ];

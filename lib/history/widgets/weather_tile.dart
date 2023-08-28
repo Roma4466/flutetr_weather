@@ -40,9 +40,21 @@ class WeatherTile extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(15),
         ),
-        child: Text(
-          weather.location,
-          style: Theme.of(context).textTheme.titleLarge,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              weather.location,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            Text(
+              'Last Updated at ${TimeOfDay.fromDateTime(weather.lastUpdated).format(context)}',
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey,
+              ),
+            ),
+          ],
         ),
       ),
     );

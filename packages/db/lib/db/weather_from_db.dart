@@ -7,7 +7,7 @@ import 'datetime_conventer.dart';
 @entity
 class WeatherFromDB {
   @PrimaryKey(autoGenerate: false)
-  final String id;
+  String id;
   final String city;
   final double temperature;
   final double windSpeed;
@@ -24,6 +24,7 @@ class WeatherFromDB {
   final DateTime sunset;
 
   WeatherFromDB({
+    this.id = '',
     required this.city,
     required this.temperature,
     required this.windSpeed,
@@ -38,7 +39,9 @@ class WeatherFromDB {
     required this.lastUpdated,
     required this.sunrise,
     required this.sunset,
-  }) : id = const Uuid().v4();
+  }) {
+    if(id == '') id = const Uuid().v4();
+  }
 
   @override
   String toString() {

@@ -34,7 +34,7 @@ class WeatherRepository {
     OpenWeatherResponse weather,
   ) async {
     final modifiedWeather = weather.toDb();
-    _dbProvider.createWeather(modifiedWeather);
+    await _dbProvider.createWeather(modifiedWeather);
     print('database action: successfully added weather');
 
     return modifiedWeather;

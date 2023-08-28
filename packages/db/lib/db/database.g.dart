@@ -186,6 +186,7 @@ class _$WeatherDao extends WeatherDao {
   Stream<List<WeatherFromDB>> getAllWeathers() {
     return _queryAdapter.queryListStream('SELECT * FROM WeatherFromDB',
         mapper: (Map<String, Object?> row) => WeatherFromDB(
+            id: row['id'] as String,
             city: row['city'] as String,
             temperature: row['temperature'] as double,
             windSpeed: row['windSpeed'] as double,
@@ -208,6 +209,7 @@ class _$WeatherDao extends WeatherDao {
   Future<List<WeatherFromDB>> getAllWeathersInList() async {
     return _queryAdapter.queryList('SELECT * FROM WeatherFromDB',
         mapper: (Map<String, Object?> row) => WeatherFromDB(
+            id: row['id'] as String,
             city: row['city'] as String,
             temperature: row['temperature'] as double,
             windSpeed: row['windSpeed'] as double,
@@ -228,6 +230,7 @@ class _$WeatherDao extends WeatherDao {
   Future<WeatherFromDB?> getWeatherById(String id) async {
     return _queryAdapter.query('SELECT * FROM WeatherFromDB WHERE id = ?1',
         mapper: (Map<String, Object?> row) => WeatherFromDB(
+            id: row['id'] as String,
             city: row['city'] as String,
             temperature: row['temperature'] as double,
             windSpeed: row['windSpeed'] as double,
