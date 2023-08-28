@@ -31,7 +31,7 @@ class WeatherPopulated extends StatelessWidget {
               child: Column(
                 children: [
                   const SizedBox(height: 300),
-                  _WeatherIcon(condition: weather.condition),
+                  if(weather.condition.ifThereIsAnimateForIt())_WeatherIcon(iconUrl: weather.iconUrl,),
                   Text(
                     weather.location,
                     style: theme.textTheme.displayMedium?.copyWith(
@@ -112,11 +112,11 @@ class WeatherPopulated extends StatelessWidget {
 }
 
 class _WeatherIcon extends StatelessWidget {
-  const _WeatherIcon({required this.condition});
+  const _WeatherIcon({required this.iconUrl});
 
   static const _iconSize = 75.0;
 
-  final WeatherCondition condition;
+  final String iconUrl;
 
   @override
   Widget build(BuildContext context) {

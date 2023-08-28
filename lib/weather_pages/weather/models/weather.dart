@@ -23,6 +23,7 @@ class Weather extends Equatable {
     required this.windSpeed,
     required this.sunrise,
     required this.sunset,
+    required this.iconUrl,
   });
 
   factory Weather.fromJson(Map<String, dynamic> json) =>
@@ -48,6 +49,7 @@ class Weather extends Equatable {
       windSpeed: weather.windSpeed,
       sunrise: weather.sunrise,
       sunset: weather.sunset,
+      iconUrl: weather.imageUrl,
     );
   }
 
@@ -70,6 +72,7 @@ class Weather extends Equatable {
     windSpeed: 0,
     sunrise: DateTime.now(),
     sunset: DateTime.now(),
+    iconUrl: '',
   );
 
   final String id;
@@ -85,23 +88,25 @@ class Weather extends Equatable {
   final double windSpeed;
   final DateTime sunrise;
   final DateTime sunset;
+  final String iconUrl;
 
   @override
   List<Object> get props => [
-        id,
-        condition,
-        lastUpdated,
-        location,
-        temperature,
-        mainDescription,
-        description,
-        pressure,
-        humidity,
-        visibility,
-        windSpeed,
-        sunrise,
-        sunset,
-      ];
+    id,
+    condition,
+    lastUpdated,
+    location,
+    temperature,
+    mainDescription,
+    description,
+    pressure,
+    humidity,
+    visibility,
+    windSpeed,
+    sunrise,
+    sunset,
+    iconUrl,
+  ];
 
   Map<String, dynamic> toJson() => _$WeatherToJson(this);
 
@@ -119,6 +124,7 @@ class Weather extends Equatable {
     double? windSpeed,
     DateTime? sunrise,
     DateTime? sunset,
+    String? iconUrl,
   }) {
     return Weather(
       id: id ?? this.id,
@@ -134,29 +140,7 @@ class Weather extends Equatable {
       windSpeed: windSpeed ?? this.windSpeed,
       sunrise: sunrise ?? this.sunrise,
       sunset: sunset ?? this.sunset,
+      iconUrl: iconUrl ?? this.iconUrl,
     );
-  }
-}
-
-extension on String {
-  WeatherCondition get toCondition {
-    switch (this) {
-      case 'Clear':
-        return WeatherCondition.clear;
-      case 'Clouds':
-        return WeatherCondition.cloudy;
-      case 'Rainy':
-        return WeatherCondition.rainy;
-      case 'Snowy':
-        return WeatherCondition.snowy;
-      case 'Thunderstorm':
-        return WeatherCondition.thunder;
-      case 'Drizzle':
-        return WeatherCondition.drizzle;
-      case 'Mist':
-        return WeatherCondition.mist;
-      default:
-        return WeatherCondition.unknown;
-    }
   }
 }

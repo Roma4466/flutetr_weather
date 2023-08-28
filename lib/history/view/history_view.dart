@@ -46,7 +46,7 @@ class HistoryView extends StatelessWidget {
                 ..hideCurrentSnackBar()
                 ..showSnackBar(
                   SnackBar(
-                    content: Text('Weather $deletedWeather is deleted'),
+                    content: Text('Weather ${deletedWeather.location} is deleted'),
                     action: SnackBarAction(
                       label: 'Undo',
                       onPressed: () {
