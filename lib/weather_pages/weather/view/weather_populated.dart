@@ -31,6 +31,7 @@ class WeatherPopulated extends StatelessWidget {
               child: Column(
                 children: [
                   const SizedBox(height: 300),
+                  _WeatherIcon(condition: weather.condition),
                   Text(
                     weather.location,
                     style: theme.textTheme.displayMedium?.copyWith(
@@ -106,6 +107,22 @@ class WeatherPopulated extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _WeatherIcon extends StatelessWidget {
+  const _WeatherIcon({required this.condition});
+
+  static const _iconSize = 75.0;
+
+  final WeatherCondition condition;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      condition.toEmoji,
+      style: const TextStyle(fontSize: _iconSize),
     );
   }
 }
