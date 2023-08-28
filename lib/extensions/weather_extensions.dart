@@ -19,6 +19,8 @@ extension WeatherToColor on Weather {
         return Colors.indigo;
       case WeatherCondition.drizzle:
         return Colors.lightBlue;
+      case WeatherCondition.mist:
+        return Colors.grey;
       case WeatherCondition.unknown:
         return ThemeCubit.defaultColor;
     }

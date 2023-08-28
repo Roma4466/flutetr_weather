@@ -149,6 +149,12 @@ extension on String {
         return WeatherCondition.rainy;
       case 'Snowy':
         return WeatherCondition.snowy;
+      case 'Thunderstorm':
+        return WeatherCondition.thunder;
+      case 'Drizzle':
+        return WeatherCondition.drizzle;
+      case 'Mist':
+        return WeatherCondition.mist;
       default:
         return WeatherCondition.unknown;
     }

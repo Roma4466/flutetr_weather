@@ -63,5 +63,6 @@ const _$WeatherConditionEnumMap = {
   WeatherCondition.snowy: 'snowy',
   WeatherCondition.thunder: 'thunder',
   WeatherCondition.drizzle: 'drizzle',
+  WeatherCondition.mist: 'mist',
   WeatherCondition.unknown: 'unknown',
 };

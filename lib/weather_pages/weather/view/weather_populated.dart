@@ -120,9 +120,11 @@ class _WeatherIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      condition.toEmoji,
-      style: const TextStyle(fontSize: _iconSize),
+    return Image.network(
+      'http://openweathermap.org/img/w/04d.png',
+      width: _iconSize,
+      height: _iconSize,
+      fit: BoxFit.cover,
     );
   }
 }

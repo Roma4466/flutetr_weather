@@ -1,5 +1,3 @@
-
-
 enum WeatherCondition {
   clear,
   rainy,
@@ -7,5 +5,6 @@ enum WeatherCondition {
   snowy,
   thunder,
   drizzle,
+  mist,
   unknown;
 }
