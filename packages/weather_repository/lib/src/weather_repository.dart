@@ -72,6 +72,7 @@ extension on OpenWeatherResponse {
         this.sys.sunset * 10000,
         isUtc: true,
       ),
+      imageUrl: 'http://openweathermap.org/img/w/${weather[0].icon}.png',
     );
   }
 }

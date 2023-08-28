@@ -22,6 +22,7 @@ class WeatherFromDB {
   final DateTime lastUpdated;
   final DateTime sunrise;
   final DateTime sunset;
+  final String imageUrl;
 
   WeatherFromDB({
     this.id = '',
@@ -39,8 +40,9 @@ class WeatherFromDB {
     required this.lastUpdated,
     required this.sunrise,
     required this.sunset,
+    required this.imageUrl,
   }) {
-    if(id == '') id = const Uuid().v4();
+    if (id == '') id = const Uuid().v4();
   }
 
   @override
@@ -48,7 +50,8 @@ class WeatherFromDB {
     return 'WeatherFromDB{city: $city, temperature: $temperature, windSpeed: $windSpeed, '
         'mainDescription: $mainDescription, description: $description, pressure: $pressure, '
         'humidity: $humidity, visibility: $visibility, minTemp: $minTemp, maxTemp: $maxTemp, '
-        'feelsLike: $feelsLike, sunrise: $sunrise, sunset: $sunset, lastUpdated: $lastUpdated}';
+        'feelsLike: $feelsLike, sunrise: $sunrise, sunset: $sunset, lastUpdated: $lastUpdated, '
+        'imageUrl: $imageUrl}';
   }
 
   WeatherFromDB copyWith({
@@ -66,6 +69,7 @@ class WeatherFromDB {
     DateTime? lastUpdated,
     DateTime? sunrise,
     DateTime? sunset,
+    String? imageUrl,
   }) {
     return WeatherFromDB(
       city: city ?? this.city,
@@ -82,6 +86,7 @@ class WeatherFromDB {
       lastUpdated: lastUpdated ?? this.lastUpdated,
       sunrise: sunrise ?? this.sunrise,
       sunset: sunset ?? this.sunset,
+      imageUrl: imageUrl ?? this.imageUrl,
     );
   }
 }
