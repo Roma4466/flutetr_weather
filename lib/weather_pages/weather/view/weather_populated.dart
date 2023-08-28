@@ -4,8 +4,6 @@ import 'package:flutter_weather/weather_pages/weather/weather.dart';
 import 'package:weather_animation/weather_animation.dart';
 import 'package:weather_repository/weather_repository.dart';
 
-import '../widgets/widgets.dart';
-
 class WeatherPopulated extends StatelessWidget {
   const WeatherPopulated({
     required this.weather,
@@ -118,13 +116,14 @@ class WeatherPopulated extends StatelessWidget {
 }
 
 class _WeatherBackground extends StatelessWidget {
-  _WeatherBackground(Weather weather)
+  _WeatherBackground(this.weather)
       : visibility = weather.visibility / 10000,
         weatherCondition = weather.condition,
         windSpeed = weather.windSpeed;
   final double visibility;
   final WeatherCondition weatherCondition;
   final double windSpeed;
+  final Weather weather;
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +132,15 @@ class _WeatherBackground extends StatelessWidget {
       children: [
         if (weatherCondition == WeatherCondition.clear) SunWidget(),
         if (weatherCondition == WeatherCondition.cloudy) CloudWidget(),
-        if (weatherCondition == WeatherCondition.rainy) RainWidget(),
+        if (weatherCondition == WeatherCondition.rainy)
+          RainWidget(
+            rainConfig: RainConfig(
+                areaYStart: 0,
+                areaXStart: 0,
+                areaXEnd: MediaQuery.of(context).size.width + 100,
+                areaYEnd: MediaQuery.of(context).size.height,
+                count: getDropletsCount(weather.description)),
+          ),
         if (weatherCondition == WeatherCondition.snowy) SnowWidget(),
         if (weatherCondition == WeatherCondition.thunder) ThunderWidget(),
         if (windSpeed > 4)
@@ -148,6 +155,29 @@ class _WeatherBackground extends StatelessWidget {
       sizeCanvas: Size(MediaQuery.of(context).size.width,
           MediaQuery.of(context).size.height),
     );
+  }
+
+  int getDropletsCount(String description) {
+    switch (description) {
+      case 'light intensity shower rain':
+      case 'light rain':
+        return 50;
+      case 'moderate rain':
+      case 'shower rain':
+        return 100;
+      case 'heavy intensity rain':
+      case 'heavy intensity shower rain':
+        return 200;
+      case 'very heavy rain':
+        return 400;
+      case 'extreme rain':
+        return 600;
+      case 'freezing rain':
+      case 'ragged shower rain':
+        return 150;
+      default:
+        return 50;
+    }
   }
 }
 

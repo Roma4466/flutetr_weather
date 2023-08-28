@@ -8,7 +8,7 @@ extension ToCondition on String {
         return WeatherCondition.clear;
       case 'Clouds':
         return WeatherCondition.cloudy;
-      case 'Rainy':
+      case 'Rain':
         return WeatherCondition.rainy;
       case 'Snowy':
         return WeatherCondition.snowy;
