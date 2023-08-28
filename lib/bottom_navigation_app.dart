@@ -29,6 +29,7 @@ class BottomNavigationBarApp extends StatelessWidget {
                 primaryColor: color,
                 textTheme: GoogleFonts.rajdhaniTextTheme(),
                 appBarTheme: AppBarTheme(
+                  backgroundColor: color,
                   titleTextStyle: GoogleFonts.rajdhaniTextTheme(textTheme)
                       .apply(bodyColor: Colors.white)
                       .titleLarge,

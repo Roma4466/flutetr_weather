@@ -4,6 +4,8 @@ import 'package:flutter_weather/weather_pages/weather/weather.dart';
 import 'package:weather_animation/weather_animation.dart';
 import 'package:weather_repository/weather_repository.dart';
 
+import '../widgets/widgets.dart';
+
 class WeatherPopulated extends StatelessWidget {
   const WeatherPopulated({
     required this.weather,
@@ -31,7 +33,11 @@ class WeatherPopulated extends StatelessWidget {
               child: Column(
                 children: [
                   const SizedBox(height: 300),
-                  if(weather.condition.ifThereIsAnimateForIt())_WeatherIcon(iconUrl: weather.iconUrl,),
+                  if (!weather.condition.ifThereIsAnimateForIt())
+                    WeatherIcon(
+                      iconUrl: weather.iconUrl,
+                      iconSize: 75.0,
+                    ),
                   Text(
                     weather.location,
                     style: theme.textTheme.displayMedium?.copyWith(
@@ -111,24 +117,6 @@ class WeatherPopulated extends StatelessWidget {
   }
 }
 
-class _WeatherIcon extends StatelessWidget {
-  const _WeatherIcon({required this.iconUrl});
-
-  static const _iconSize = 75.0;
-
-  final String iconUrl;
-
-  @override
-  Widget build(BuildContext context) {
-    return Image.network(
-      'http://openweathermap.org/img/w/04d.png',
-      width: _iconSize,
-      height: _iconSize,
-      fit: BoxFit.cover,
-    );
-  }
-}
-
 class _WeatherBackground extends StatelessWidget {
   _WeatherBackground(Weather weather)
       : visibility = weather.visibility / 10000,
@@ -164,18 +152,6 @@ class _WeatherBackground extends StatelessWidget {
 }
 
 String formattedTemperature(double value, TemperatureUnits units) {
-  double formattedValue =
-      units.isCelsius ? value.toCelsius() : value.toFahrenheit();
-  String formattedValueString = formattedValue.toStringAsFixed(0);
+  String formattedValueString = value.toStringAsFixed(0);
   return '$formattedValueString°${units.isCelsius ? 'C' : 'F'}';
-}
-
-extension on double {
-  double toCelsius() {
-    return this - 273.16;
-  }
-
-  double toFahrenheit() {
-    return (this - 273.16) * 9 / 5 + 32;
-  }
 }

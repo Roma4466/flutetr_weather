@@ -53,16 +53,16 @@ extension on OpenWeatherResponse {
   WeatherFromDB toDb() {
     return WeatherFromDB(
       city: this.cityName,
-      temperature: this.main.temp,
+      temperature: this.main.temp - 273.15,
       windSpeed: this.wind.speed,
       mainDescription: this.weather[0].main,
       description: this.weather[0].description,
       pressure: this.main.pressure,
       humidity: this.main.humidity,
       visibility: this.visibility,
-      minTemp: this.main.tempMin,
-      maxTemp: this.main.tempMax,
-      feelsLike: this.main.feelsLike,
+      minTemp: this.main.tempMin - 273.15,
+      maxTemp: this.main.tempMax - 273.15,
+      feelsLike: this.main.feelsLike - 273.15,
       lastUpdated: DateTime.now(),
       sunrise: DateTime.fromMillisecondsSinceEpoch(
         this.sys.sunrise * 10000,

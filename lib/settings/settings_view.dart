@@ -32,11 +32,10 @@ class _SettingsViewState extends State<SettingsView> {
                   children: [
                     Text('Celsius'),
                     Switch(
-                      value: state.temperatureUnits.isCelsius,
-                      onChanged: (_) =>
-                          context.read<WeatherCubit>().toggleUnits(),
+                      value: state.temperatureUnits.isFahrenheit,
+                      onChanged: (isFahrenheit) =>
+                          context.read<WeatherCubit>().toggleUnits(isFahrenheit),
                       activeColor: Colors.blue,
-                      // Set your desired active color here
                       inactiveTrackColor: Colors.blue,
                     ),
                     Text('Fahrenheit'),

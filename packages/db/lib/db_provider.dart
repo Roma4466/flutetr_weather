@@ -17,11 +17,8 @@ class DbProvider {
         await $FloorAppDatabase.databaseBuilder('edmt_database.db').build();
   }
 
-  Future<void> createWeather(WeatherFromDB weather) async {
-    await _database.weatherDao.insertWeather(weather);
-    final weathers = await _database.weatherDao.getAllWeathersInList();
-    final tmp = await _database.weatherDao.getWeatherById(weather.id!);
-  }
+  Future<void> createWeather(WeatherFromDB weather) =>
+      _database.weatherDao.insertWeather(weather);
 
   Stream<List<WeatherFromDB>> getWeathers() =>
       _database.weatherDao.getAllWeathers();

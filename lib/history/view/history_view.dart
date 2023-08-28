@@ -63,7 +63,6 @@ class HistoryView extends StatelessWidget {
         ],
         child: BlocBuilder<HistoryBloc, HistoryState>(
           builder: (context, state) {
-            final weathers = state.weathers;
             if (state.weathers.isEmpty) {
               if (state.status == HistoryStatus.loading) {
                 return const Center(child: CupertinoActivityIndicator());

@@ -6,6 +6,7 @@ import 'package:weather_repository/weather_repository.dart'
     show WeatherRepository;
 
 part 'weather_cubit.g.dart';
+
 part 'weather_state.dart';
 
 class WeatherCubit extends HydratedCubit<WeatherState> {
@@ -94,10 +95,9 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
     }
   }
 
-  void toggleUnits() {
-    final units = state.temperatureUnits.isFahrenheit
-        ? TemperatureUnits.celsius
-        : TemperatureUnits.fahrenheit;
+  void toggleUnits(bool isFahrenheit) {
+    final units =
+        isFahrenheit ? TemperatureUnits.fahrenheit : TemperatureUnits.celsius;
 
     if (!state.status.isSuccess) {
       emit(state.copyWith(temperatureUnits: units));

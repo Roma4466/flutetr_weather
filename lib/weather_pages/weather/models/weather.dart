@@ -1,5 +1,6 @@
 import 'package:db/db/db.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_weather/extensions/extensions.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:weather_repository/weather_repository.dart';
 

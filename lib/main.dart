@@ -13,6 +13,5 @@ void main() async {
         ? HydratedStorage.webStorageDirectory
         : await getTemporaryDirectory(),
   );
-  // await dotenv.load(fileName: ".env");
   runApp(BottomNavigationBarApp(weatherRepository: WeatherRepository()));
 }

@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_weather/extensions/extensions.dart';
 import 'package:flutter_weather/history/bloc/history_bloc.dart';
-import 'package:flutter_weather/weather_pages/weather/view/view.dart';
 
-import '../../weather_pages/weather/models/weather.dart';
+import '../../weather_pages/weather/weather.dart';
 
 class WeatherTile extends StatelessWidget {
   final Weather weather;
@@ -47,11 +46,14 @@ class WeatherTile extends StatelessWidget {
               weather.location,
               style: Theme.of(context).textTheme.titleLarge,
             ),
+            WeatherIcon(
+              iconUrl: weather.iconUrl,
+              iconSize: 24.0,
+            ),
             Text(
               'Last Updated at ${TimeOfDay.fromDateTime(weather.lastUpdated).format(context)}',
               style: TextStyle(
                 fontSize: 12,
-                color: Colors.grey,
               ),
             ),
           ],
