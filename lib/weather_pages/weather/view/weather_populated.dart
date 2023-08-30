@@ -132,7 +132,8 @@ class _WeatherBackground extends StatelessWidget {
       children: [
         if (weatherCondition == WeatherCondition.clear) SunWidget(),
         if (weatherCondition == WeatherCondition.cloudy) CloudWidget(),
-        if (weatherCondition == WeatherCondition.rainy)
+        if (weatherCondition == WeatherCondition.rainy ||
+            weather.description.contains('rain'))
           RainWidget(
             rainConfig: RainConfig(
                 areaYStart: 0,
@@ -141,8 +142,23 @@ class _WeatherBackground extends StatelessWidget {
                 areaYEnd: MediaQuery.of(context).size.height,
                 count: getDropletsCount(weather.description)),
           ),
-        if (weatherCondition == WeatherCondition.snowy) SnowWidget(),
-        if (weatherCondition == WeatherCondition.thunder) ThunderWidget(),
+        if (weatherCondition == WeatherCondition.snowy ||
+            weather.description.contains('snow'))
+          SnowWidget(
+            snowConfig: SnowConfig(
+              areaYStart: 0,
+              areaXStart: 0,
+              areaXEnd: MediaQuery.of(context).size.width + 100,
+              areaYEnd: MediaQuery.of(context).size.height,
+              count: 100,
+            ),
+          ),
+        if (weatherCondition == WeatherCondition.thunder) ThunderWidget(
+          thunderConfig: ThunderConfig(
+            flashStartMill: 0,
+            flashEndMill: 10000,
+          ),
+        ),
         if (windSpeed > 4)
           WindWidget(
             windConfig: WindConfig(windGap: 60 / windSpeed),
@@ -158,26 +174,16 @@ class _WeatherBackground extends StatelessWidget {
   }
 
   int getDropletsCount(String description) {
-    switch (description) {
-      case 'light intensity shower rain':
-      case 'light rain':
-        return 50;
-      case 'moderate rain':
-      case 'shower rain':
-        return 100;
-      case 'heavy intensity rain':
-      case 'heavy intensity shower rain':
-        return 200;
-      case 'very heavy rain':
-        return 400;
-      case 'extreme rain':
-        return 600;
-      case 'freezing rain':
-      case 'ragged shower rain':
-        return 150;
-      default:
-        return 50;
-    }
+    if (description.contains('light') || description.contains('sleet'))
+      return 50;
+    if (description.contains('moderate') ||
+        description.contains('shower') ||
+        description.contains('freezing') ||
+        description.contains('ragged')) return 100;
+    if (description.contains('very heavy')) return 400;
+    if (description.contains('heavy')) return 200;
+    if (description.contains('extreme')) return 200;
+    return 100;
   }
 }
 
