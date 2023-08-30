@@ -34,7 +34,7 @@ class Weather extends Equatable {
     return Weather(
       id: weather.id,
       condition: weather.mainDescription.toCondition,
-      lastUpdated: DateTime.now(),
+      lastUpdated: weather.lastUpdated,
       location: weather.city,
       temperature: Temperature(
         value: weather.temperature,
