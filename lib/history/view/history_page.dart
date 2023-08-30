@@ -13,7 +13,7 @@ class HistoryPage extends StatelessWidget {
       create: (context) => HistoryBloc(
         weatherRepository: context.read<WeatherRepository>(),
       )..add(const HistorySubscriptionRequested()),
-      child: HistoryView(),
+      child: const HistoryView(),
     );
   }
 }

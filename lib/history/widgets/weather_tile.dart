@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_weather/extensions/extensions.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_weather/history/bloc/history_bloc.dart';
 
 import '../../weather_pages/weather/weather.dart';
 
 class WeatherTile extends StatelessWidget {
   final Weather weather;
   final Color color;
-  final VoidCallback onDelete;
-  final Animation<double> animation;
-  final bool removing;
 
-  WeatherTile({
-    required this.weather,
-    required this.onDelete,
-    required this.animation,
-    this.removing = true,
-  }) : color = weather.toColor;
+  WeatherTile(this.weather) : color = weather.toColor;
 
   void selectCategory(BuildContext context) {
     Navigator.of(context).push<void>(WeatherPage.route(context, weather));
@@ -27,7 +20,8 @@ class WeatherTile extends StatelessWidget {
     final visibilityInPercents = weather.visibility / 10000;
     return InkWell(
       onTap: () => selectCategory(context),
-      onLongPress: () => onDelete(),
+      onLongPress: () =>
+          context.read<HistoryBloc>().add(HistoryWeatherDeleted(weather)),
       splashColor: Theme.of(context).primaryColor,
       borderRadius: BorderRadius.circular(15),
       child: Container(
@@ -45,37 +39,24 @@ class WeatherTile extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(15),
         ),
-        child: ScaleTransition(
-          scale: CurvedAnimation(
-              parent: animation,
-              curve: removing ? Curves.easeInOut : Curves.bounceOut),
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            child: SizedBox(
-              height: 80.0,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      weather.location,
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    WeatherIcon(
-                      iconUrl: weather.iconUrl,
-                      iconSize: 24.0,
-                    ),
-                    Text(
-                      DateFormat('dd/MM HH:mm').format(weather.lastUpdated),
-                      style: TextStyle(
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
-                ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              weather.location,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            WeatherIcon(
+              iconUrl: weather.iconUrl,
+              iconSize: 24.0,
+            ),
+            Text(
+              'Last Updated at ${TimeOfDay.fromDateTime(weather.lastUpdated).format(context)}',
+              style: TextStyle(
+                fontSize: 12,
               ),
             ),
-          ),
+          ],
         ),
       ),
     );
