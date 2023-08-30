@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_weather/extensions/extensions.dart';
 import 'package:flutter_weather/history/bloc/history_bloc.dart';
+import 'package:intl/intl.dart';
 
 import '../../weather_pages/weather/weather.dart';
 
@@ -51,7 +52,7 @@ class WeatherTile extends StatelessWidget {
               iconSize: 24.0,
             ),
             Text(
-              'Last Updated at ${TimeOfDay.fromDateTime(weather.lastUpdated).format(context)}',
+              DateFormat('dd/MM HH:mm').format(weather.lastUpdated),
               style: TextStyle(
                 fontSize: 12,
               ),

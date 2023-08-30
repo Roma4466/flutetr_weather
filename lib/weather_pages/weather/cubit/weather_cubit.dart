@@ -14,7 +14,24 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
 
   final WeatherRepository _weatherRepository;
 
-  Future<void> fetchWeather(String? city) async {
+  Future<void> setWeather(Weather weather) async {
+    final units = state.temperatureUnits;
+    emit(
+    state.copyWith(
+        status: WeatherStatus.success,
+        temperatureUnits: units,
+        weather: weather.copyWith(
+            temperature: Temperature(
+              value: weather.temperature.value,
+              minValue: weather.temperature.minValue,
+              maxValue: weather.temperature.maxValue,
+              feelsLike: weather.temperature.feelsLike,
+            )),
+      ),
+    );
+  }
+
+    Future<void> fetchWeather(String? city) async {
     if (city == null || city.isEmpty) return;
 
     emit(state.copyWith(status: WeatherStatus.loading));

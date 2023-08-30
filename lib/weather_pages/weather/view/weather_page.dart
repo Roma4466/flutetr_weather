@@ -45,6 +45,10 @@ class _WeatherViewState extends State<WeatherView> {
 
   @override
   Widget build(BuildContext context) {
+    if (weather != null) {
+      context.read<WeatherCubit>().setWeather(weather!);
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter Weather'),
@@ -59,17 +63,7 @@ class _WeatherViewState extends State<WeatherView> {
           builder: (context, state) {
             switch (state.status) {
               case WeatherStatus.initial:
-                if (weather == null) {
-                  return const WeatherEmpty();
-                } else {
-                  return WeatherPopulated(
-                    weather: weather!,
-                    units: state.temperatureUnits,
-                    onRefresh: () {
-                      return context.read<WeatherCubit>().refreshWeather();
-                    },
-                  );
-                }
+                return const WeatherEmpty();
               case WeatherStatus.loading:
                 return const WeatherLoading();
               case WeatherStatus.success:
