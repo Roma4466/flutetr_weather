@@ -47,6 +47,8 @@ class WeatherRepository {
   Future<void> undoDeletion(String id) => _dbProvider.undoDeletion(id);
 
   Future<void> deleteAll() => _dbProvider.deleteAll();
+
+  Future<List<String>> getCitiesList() => _dbProvider.getCitiesList();
 }
 
 extension on OpenWeatherResponse {

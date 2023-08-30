@@ -266,6 +266,12 @@ class _$WeatherDao extends WeatherDao {
   }
 
   @override
+  Future<List<String>> getCitiesList() async {
+    return _queryAdapter.queryList('SELECT city FROM WeatherFromDB',
+        mapper: (Map<String, Object?> row) => row.values.first as String);
+  }
+
+  @override
   Future<void> insertWeather(WeatherFromDB weather) async {
     await _weatherFromDBInsertionAdapter.insert(
         weather, OnConflictStrategy.abort);

@@ -35,4 +35,6 @@ class DbProvider {
   }
 
   Future<void> deleteAll() => _database.weatherDao.deleteAll();
+
+  Future<List<String>> getCitiesList() => _database.weatherDao.getCitiesList();
 }

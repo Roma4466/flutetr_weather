@@ -23,6 +23,7 @@ dependencies:
   db:
     path: packages/db
   weather_animation: ^0.0.2
+  flutter_typeahead: ^4.6.2
 
 dev_dependencies:
   bloc_test: ^9.1.0

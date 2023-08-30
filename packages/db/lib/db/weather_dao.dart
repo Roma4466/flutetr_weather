@@ -26,4 +26,7 @@ abstract class WeatherDao {
 
   @Query('DELETE FROM WeatherFromDB WHERE id = :id')
   Future<void> deleteWeatherById(String id);
+
+  @Query('SELECT city FROM WeatherFromDB')
+  Future<List<String>> getCitiesList();
 }
