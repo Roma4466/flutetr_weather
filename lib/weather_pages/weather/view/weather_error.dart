@@ -16,7 +16,7 @@ class WeatherError extends StatelessWidget {
       children: [
         const Text('🙈', style: TextStyle(fontSize: 64)),
         Text(
-          errorMessage,
+          'City does not exist',
           style: theme.textTheme.headlineSmall,
         ),
       ],
