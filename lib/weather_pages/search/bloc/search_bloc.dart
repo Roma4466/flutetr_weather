@@ -13,7 +13,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   })  : _weatherRepository = weatherRepository,
         super(SearchState([])) {
     on<SuggestionsRequested>((event, emit) async {
-      final suggestions = await _weatherRepository.getCitiesList();
+      var suggestions = await _weatherRepository.getCitiesList();
+      suggestions = suggestions.toSet().toList();
       emit(SearchState(suggestions));
     });
   }
