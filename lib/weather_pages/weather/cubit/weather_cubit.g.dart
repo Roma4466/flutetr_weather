@@ -27,10 +27,15 @@ WeatherState _$WeatherStateFromJson(Map<String, dynamic> json) =>
               (v) => v == null
                   ? null
                   : Weather.fromJson(v as Map<String, dynamic>)),
+          errorMessage: $checkedConvert(
+              'error_message', (v) => v as String? ?? 'Something went wrong'),
         );
         return val;
       },
-      fieldKeyMap: const {'temperatureUnits': 'temperature_units'},
+      fieldKeyMap: const {
+        'temperatureUnits': 'temperature_units',
+        'errorMessage': 'error_message'
+      },
     );
 
 Map<String, dynamic> _$WeatherStateToJson(WeatherState instance) =>
@@ -39,6 +44,7 @@ Map<String, dynamic> _$WeatherStateToJson(WeatherState instance) =>
       'weather': instance.weather.toJson(),
       'temperature_units':
           _$TemperatureUnitsEnumMap[instance.temperatureUnits]!,
+      'error_message': instance.errorMessage,
     };
 
 const _$WeatherStatusEnumMap = {

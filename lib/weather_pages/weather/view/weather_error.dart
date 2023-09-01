@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class WeatherError extends StatelessWidget {
-  const WeatherError({super.key});
+  const WeatherError({
+    required this.errorMessage,
+    super.key,
+  });
+
+  final String errorMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +16,7 @@ class WeatherError extends StatelessWidget {
       children: [
         const Text('🙈', style: TextStyle(fontSize: 64)),
         Text(
-          'Something went wrong!',
+          errorMessage,
           style: theme.textTheme.headlineSmall,
         ),
       ],

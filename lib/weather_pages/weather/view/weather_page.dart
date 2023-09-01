@@ -75,7 +75,7 @@ class _WeatherViewState extends State<WeatherView> {
                   },
                 );
               case WeatherStatus.failure:
-                return const WeatherError();
+                return WeatherError(errorMessage: state.errorMessage);
             }
           },
         ),

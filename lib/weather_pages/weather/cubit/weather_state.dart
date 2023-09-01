@@ -21,6 +21,7 @@ final class WeatherState extends Equatable {
     this.status = WeatherStatus.initial,
     this.temperatureUnits = TemperatureUnits.celsius,
     Weather? weather,
+    this.errorMessage = 'Something went wrong',
   }) : weather = weather ?? Weather.empty;
 
   factory WeatherState.fromJson(Map<String, dynamic> json) =>
@@ -29,21 +30,24 @@ final class WeatherState extends Equatable {
   final WeatherStatus status;
   final Weather weather;
   final TemperatureUnits temperatureUnits;
+  final String errorMessage;
 
   WeatherState copyWith({
     WeatherStatus? status,
     TemperatureUnits? temperatureUnits,
     Weather? weather,
+    String? errorMessage
   }) {
     return WeatherState(
       status: status ?? this.status,
       temperatureUnits: temperatureUnits ?? this.temperatureUnits,
       weather: weather ?? this.weather,
+      errorMessage: errorMessage ?? this.errorMessage
     );
   }
 
   Map<String, dynamic> toJson() => _$WeatherStateToJson(this);
 
   @override
-  List<Object?> get props => [status, temperatureUnits, weather];
+  List<Object?> get props => [status, temperatureUnits, weather, errorMessage];
 }

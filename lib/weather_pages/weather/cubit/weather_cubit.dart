@@ -69,7 +69,7 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
       );
     } on Exception catch (e) {
       print('Exception from weather: $e');
-      emit(state.copyWith(status: WeatherStatus.failure));
+      emit(state.copyWith(status: WeatherStatus.failure, errorMessage: e.toString()));
     }
   }
 
