@@ -15,6 +15,7 @@ class HistoryView extends StatelessWidget {
         actions: [
           const HistoryFilterButton(),
           const HistoryOptionsButton(),
+
         ],
       ),
       body: MultiBlocListener(

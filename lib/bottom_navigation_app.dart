@@ -84,10 +84,10 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
             icon: Icon(Icons.history),
             label: 'History',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.settings),
+          //   label: 'Settings',
+          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.map_sharp),
             label: 'Maps',
