@@ -6,6 +6,7 @@ import 'package:flutter_weather/theme/cubit/theme_cubit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:weather_repository/weather_repository.dart';
 
+import 'maps/test.dart';
 import 'weather_pages/weather/view/view.dart';
 
 class BottomNavigationBarApp extends StatelessWidget {
@@ -58,6 +59,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
     WeatherPage(),
     HistoryPage(),
     SettingsPage(),
+    MapSample()
   ];
 
   void _onItemTapped(int index) {
@@ -85,6 +87,10 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Settings',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map_sharp),
+            label: 'Maps',
           ),
         ],
         currentIndex: _selectedIndex,

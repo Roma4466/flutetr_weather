@@ -25,6 +25,7 @@ dependencies:
   weather_animation: ^0.0.2
   flutter_typeahead: ^4.6.2
   intl: ^0.18.1
+  google_maps_flutter: ^2.5.0
 
 dev_dependencies:
   bloc_test: ^9.1.0
