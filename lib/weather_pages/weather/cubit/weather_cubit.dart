@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_weather/weather_pages/weather/weather.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -14,24 +16,30 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
 
   final WeatherRepository _weatherRepository;
 
+  final _temperatureUnitsController =
+      StreamController<TemperatureUnits>.broadcast();
+
+  Stream<TemperatureUnits> get temperatureUnitsStream =>
+      _temperatureUnitsController.stream;
+
   Future<void> setWeather(Weather weather) async {
     final units = state.temperatureUnits;
     emit(
-    state.copyWith(
+      state.copyWith(
         status: WeatherStatus.success,
         temperatureUnits: units,
         weather: weather.copyWith(
             temperature: Temperature(
-              value: weather.temperature.value,
-              minValue: weather.temperature.minValue,
-              maxValue: weather.temperature.maxValue,
-              feelsLike: weather.temperature.feelsLike,
-            )),
+          value: weather.temperature.value,
+          minValue: weather.temperature.minValue,
+          maxValue: weather.temperature.maxValue,
+          feelsLike: weather.temperature.feelsLike,
+        )),
       ),
     );
   }
 
-    Future<void> fetchWeather(String? city) async {
+  Future<void> fetchWeather(String? city) async {
     if (city == null || city.isEmpty) return;
 
     emit(state.copyWith(status: WeatherStatus.loading));
@@ -40,36 +48,24 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
       final weather = Weather.fromDb(
         await _weatherRepository.getWeatherByName(city),
       );
-      final units = state.temperatureUnits;
-      final value = units.isFahrenheit
-          ? weather.temperature.value.toFahrenheit()
-          : weather.temperature.value;
-      final minTemp = units.isFahrenheit
-          ? weather.temperature.value.toFahrenheit()
-          : weather.temperature.minValue;
-      final maxTemp = units.isFahrenheit
-          ? weather.temperature.value.toFahrenheit()
-          : weather.temperature.maxValue;
-      final feelsLike = units.isFahrenheit
-          ? weather.temperature.value.toFahrenheit()
-          : weather.temperature.feelsLike;
 
       emit(
         state.copyWith(
           status: WeatherStatus.success,
-          temperatureUnits: units,
+          temperatureUnits: state.temperatureUnits,
           weather: weather.copyWith(
               temperature: Temperature(
-            value: value,
-            minValue: minTemp,
-            maxValue: maxTemp,
-            feelsLike: feelsLike,
+            value: weather.temperature.value,
+            minValue: weather.temperature.minValue,
+            maxValue: weather.temperature.maxValue,
+            feelsLike: weather.temperature.feelsLike,
           )),
         ),
       );
     } on Exception catch (e) {
       print('Exception from weather: $e');
-      emit(state.copyWith(status: WeatherStatus.failure, errorMessage: e.toString()));
+      emit(state.copyWith(
+          status: WeatherStatus.failure, errorMessage: e.toString()));
     }
   }
 
@@ -80,30 +76,17 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
       final weather = Weather.fromDb(
         await _weatherRepository.getWeatherByName(state.weather.location),
       );
-      final units = state.temperatureUnits;
-      final value = units.isFahrenheit
-          ? weather.temperature.value.toFahrenheit()
-          : weather.temperature.value;
-      final minTemp = units.isFahrenheit
-          ? weather.temperature.value.toFahrenheit()
-          : weather.temperature.minValue;
-      final maxTemp = units.isFahrenheit
-          ? weather.temperature.value.toFahrenheit()
-          : weather.temperature.maxValue;
-      final feelsLike = units.isFahrenheit
-          ? weather.temperature.value.toFahrenheit()
-          : weather.temperature.feelsLike;
 
       emit(
         state.copyWith(
           status: WeatherStatus.success,
-          temperatureUnits: units,
+          temperatureUnits: state.temperatureUnits,
           weather: weather.copyWith(
               temperature: Temperature(
-            value: value,
-            minValue: minTemp,
-            maxValue: maxTemp,
-            feelsLike: feelsLike,
+            value: weather.temperature.value,
+            minValue: weather.temperature.minValue,
+            maxValue: weather.temperature.maxValue,
+            feelsLike: weather.temperature.feelsLike,
           )),
         ),
       );
@@ -120,35 +103,8 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
       emit(state.copyWith(temperatureUnits: units));
       return;
     }
-
-    final weather = state.weather;
-    if (weather != Weather.empty) {
-      final temperature = weather.temperature;
-      final value = units.isCelsius
-          ? temperature.value.toCelsius()
-          : temperature.value.toFahrenheit();
-      final minTemp = units.isCelsius
-          ? weather.temperature.value.toCelsius()
-          : weather.temperature.minValue.toFahrenheit();
-      final maxTemp = units.isCelsius
-          ? weather.temperature.value.toCelsius()
-          : weather.temperature.maxValue.toFahrenheit();
-      final feelsLike = units.isCelsius
-          ? weather.temperature.value.toCelsius()
-          : weather.temperature.feelsLike.toFahrenheit();
-      emit(
-        state.copyWith(
-          temperatureUnits: units,
-          weather: weather.copyWith(
-              temperature: Temperature(
-            value: value,
-            minValue: minTemp,
-            maxValue: maxTemp,
-            feelsLike: feelsLike,
-          )),
-        ),
-      );
-    }
+    _temperatureUnitsController.stream.first;
+    _temperatureUnitsController.add(units);
   }
 
   @override
@@ -157,10 +113,4 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
 
   @override
   Map<String, dynamic> toJson(WeatherState state) => state.toJson();
-}
-
-extension on double {
-  double toFahrenheit() => (this * 9 / 5) + 32;
-
-  double toCelsius() => (this - 32) * 5 / 9;
 }

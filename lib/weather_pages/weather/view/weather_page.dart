@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_weather/theme/theme.dart';
 import 'package:flutter_weather/weather_pages/search/search.dart';
 import 'package:flutter_weather/weather_pages/weather/weather.dart';
 import 'package:weather_repository/weather_repository.dart';
+
+import '../../../settings/settings.dart';
 
 class WeatherPage extends StatelessWidget {
   const WeatherPage({super.key, this.weather});
@@ -40,18 +44,21 @@ class WeatherView extends StatefulWidget {
 
 class _WeatherViewState extends State<WeatherView> {
   _WeatherViewState({this.weather});
-
   final Weather? weather;
-
   @override
   Widget build(BuildContext context) {
-    if (weather != null) {
-      context.read<WeatherCubit>().setWeather(weather!);
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter Weather'),
+        actions: [
+          IconButton(
+            key: const Key('homePage_logout_iconButton'),
+            icon: const Icon(Icons.settings),
+            onPressed: () async {
+              Navigator.of(context).push<void>(SettingsPage.route());
+            },
+          ),
+        ],
       ),
       body: Center(
         child: BlocConsumer<WeatherCubit, WeatherState>(

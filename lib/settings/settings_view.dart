@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../weather_pages/weather/weather.dart';
 
 class SettingsView extends StatefulWidget {
-  const SettingsView({super.key});
+  const  SettingsView({super.key});
 
   @override
   State<SettingsView> createState() => _SettingsViewState();

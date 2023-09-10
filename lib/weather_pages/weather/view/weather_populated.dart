@@ -1,29 +1,60 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_weather/extensions/extensions.dart';
 import 'package:flutter_weather/weather_pages/weather/weather.dart';
 import 'package:weather_animation/weather_animation.dart';
 import 'package:weather_repository/weather_repository.dart';
 
-class WeatherPopulated extends StatelessWidget {
-  const WeatherPopulated({
+class WeatherPopulated extends StatefulWidget {
+  WeatherPopulated({
     required this.weather,
     required this.units,
     required this.onRefresh,
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   final Weather weather;
   final TemperatureUnits units;
   final ValueGetter<Future<void>> onRefresh;
 
   @override
+  _WeatherPopulatedState createState() => _WeatherPopulatedState();
+}
+
+class _WeatherPopulatedState extends State<WeatherPopulated> {
+  late final StreamSubscription<TemperatureUnits> _temperatureUnitsSubscription;
+  late TemperatureUnits _currentUnits;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentUnits = widget.units;
+    _temperatureUnitsSubscription =
+        context.read<WeatherCubit>().temperatureUnitsStream.listen((units) {
+      setState(() {
+        _currentUnits = units;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _temperatureUnitsSubscription.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final weather = widget.weather;
+
     return Stack(
       children: [
         _WeatherBackground(weather),
         RefreshIndicator(
-          onRefresh: onRefresh,
+          onRefresh: widget.onRefresh,
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             clipBehavior: Clip.none,
@@ -62,7 +93,8 @@ class WeatherPopulated extends StatelessWidget {
                           ),
                           Text(
                             formattedTemperature(
-                                weather.temperature.value, units),
+                                weather.temperature.value, _currentUnits),
+                            // Use _currentUnits
                             style: theme.textTheme.displaySmall?.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
@@ -81,7 +113,8 @@ class WeatherPopulated extends StatelessWidget {
                           ),
                           Text(
                             formattedTemperature(
-                                weather.temperature.feelsLike, units),
+                                weather.temperature.feelsLike, _currentUnits),
+                            // Use _currentUnits
                             style: theme.textTheme.displaySmall?.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
@@ -94,10 +127,10 @@ class WeatherPopulated extends StatelessWidget {
                     '''Last Updated at ${TimeOfDay.fromDateTime(weather.lastUpdated).format(context)}''',
                   ),
                   Text(
-                    'Minimum temperature: ${formattedTemperature(weather.temperature.minValue, units)}',
+                    'Minimum temperature: ${formattedTemperature(weather.temperature.minValue, _currentUnits)}', // Use _currentUnits
                   ),
                   Text(
-                    'Maximum temperature: ${formattedTemperature(weather.temperature.maxValue, units)}',
+                    'Maximum temperature: ${formattedTemperature(weather.temperature.maxValue, _currentUnits)}', // Use _currentUnits
                   ),
                   Text(
                     'Visibility: ${(weather.visibility / 1000).toStringAsFixed(1)} km',
@@ -153,12 +186,13 @@ class _WeatherBackground extends StatelessWidget {
               count: 100,
             ),
           ),
-        if (weatherCondition == WeatherCondition.thunder) ThunderWidget(
-          thunderConfig: ThunderConfig(
-            flashStartMill: 0,
-            flashEndMill: 10000,
+        if (weatherCondition == WeatherCondition.thunder)
+          ThunderWidget(
+            thunderConfig: ThunderConfig(
+              flashStartMill: 0,
+              flashEndMill: 10000,
+            ),
           ),
-        ),
         if (windSpeed > 4)
           WindWidget(
             windConfig: WindConfig(windGap: 60 / windSpeed),
@@ -188,6 +222,9 @@ class _WeatherBackground extends StatelessWidget {
 }
 
 String formattedTemperature(double value, TemperatureUnits units) {
-  String formattedValueString = value.toStringAsFixed(0);
+  final updatedValue = units.isCelsius
+      ? value.toCelsius()
+      : value.toFahrenheit();
+  String formattedValueString = updatedValue.toStringAsFixed(0);
   return '$formattedValueString°${units.isCelsius ? 'C' : 'F'}';
 }
