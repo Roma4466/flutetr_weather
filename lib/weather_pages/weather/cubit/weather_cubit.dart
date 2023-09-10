@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter_weather/extensions/extensions.dart';
 import 'package:flutter_weather/weather_pages/weather/weather.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -30,10 +31,10 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
         temperatureUnits: units,
         weather: weather.copyWith(
             temperature: Temperature(
-          value: weather.temperature.value,
-          minValue: weather.temperature.minValue,
-          maxValue: weather.temperature.maxValue,
-          feelsLike: weather.temperature.feelsLike,
+          value: weather.temperature.value.formatted(units),
+          minValue: weather.temperature.minValue.formatted(units),
+          maxValue: weather.temperature.maxValue.formatted(units),
+          feelsLike: weather.temperature.feelsLike.formatted(units),
         )),
       ),
     );
@@ -48,17 +49,17 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
       final weather = Weather.fromDb(
         await _weatherRepository.getWeatherByName(city),
       );
+      final units = state.temperatureUnits;
 
       emit(
         state.copyWith(
-          status: WeatherStatus.success,
-          temperatureUnits: state.temperatureUnits,
+          temperatureUnits: units,
           weather: weather.copyWith(
               temperature: Temperature(
-            value: weather.temperature.value,
-            minValue: weather.temperature.minValue,
-            maxValue: weather.temperature.maxValue,
-            feelsLike: weather.temperature.feelsLike,
+            value: weather.temperature.value.formatted(units),
+            minValue: weather.temperature.minValue.formatted(units),
+            maxValue: weather.temperature.maxValue.formatted(units),
+            feelsLike: weather.temperature.feelsLike.formatted(units),
           )),
         ),
       );
@@ -76,17 +77,17 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
       final weather = Weather.fromDb(
         await _weatherRepository.getWeatherByName(state.weather.location),
       );
+      final units = state.temperatureUnits;
 
       emit(
         state.copyWith(
-          status: WeatherStatus.success,
-          temperatureUnits: state.temperatureUnits,
+          temperatureUnits: units,
           weather: weather.copyWith(
               temperature: Temperature(
-            value: weather.temperature.value,
-            minValue: weather.temperature.minValue,
-            maxValue: weather.temperature.maxValue,
-            feelsLike: weather.temperature.feelsLike,
+            value: weather.temperature.value.formatted(units),
+            minValue: weather.temperature.minValue.formatted(units),
+            maxValue: weather.temperature.maxValue.formatted(units),
+            feelsLike: weather.temperature.feelsLike.formatted(units),
           )),
         ),
       );
@@ -103,6 +104,21 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
       emit(state.copyWith(temperatureUnits: units));
       return;
     }
+
+    final weather = state.weather;
+    emit(
+      state.copyWith(
+        temperatureUnits: units,
+        weather: weather.copyWith(
+            temperature: Temperature(
+          value: weather.temperature.value.toggle(units),
+          minValue: weather.temperature.minValue.toggle(units),
+          maxValue: weather.temperature.maxValue.toggle(units),
+          feelsLike: weather.temperature.feelsLike.toggle(units),
+        )),
+      ),
+    );
+
     _temperatureUnitsController.stream.first;
     _temperatureUnitsController.add(units);
   }

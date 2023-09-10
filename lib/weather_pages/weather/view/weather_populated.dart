@@ -225,6 +225,6 @@ String formattedTemperature(double value, TemperatureUnits units) {
   final updatedValue = units.isCelsius
       ? value.toCelsius()
       : value.toFahrenheit();
-  String formattedValueString = updatedValue.toStringAsFixed(0);
+  String formattedValueString = value.toStringAsFixed(0);
   return '$formattedValueString°${units.isCelsius ? 'C' : 'F'}';
 }
