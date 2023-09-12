@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../weather_pages/weather/weather.dart';
 
 class SettingsView extends StatefulWidget {
-  const  SettingsView({super.key});
+  const SettingsView({super.key});
 
   @override
   State<SettingsView> createState() => _SettingsViewState();
@@ -33,8 +33,9 @@ class _SettingsViewState extends State<SettingsView> {
                     Text('Celsius'),
                     Switch(
                       value: state.temperatureUnits.isFahrenheit,
-                      onChanged: (isFahrenheit) =>
-                          context.read<WeatherCubit>().toggleUnits(isFahrenheit),
+                      onChanged: (isFahrenheit) {
+                        context.read<WeatherCubit>().toggleUnits(isFahrenheit);
+                      },
                       activeColor: Colors.blue,
                       inactiveTrackColor: Colors.blue,
                     ),

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_weather/theme/theme.dart';
@@ -44,7 +42,9 @@ class WeatherView extends StatefulWidget {
 
 class _WeatherViewState extends State<WeatherView> {
   _WeatherViewState({this.weather});
+
   final Weather? weather;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +55,8 @@ class _WeatherViewState extends State<WeatherView> {
             key: const Key('homePage_logout_iconButton'),
             icon: const Icon(Icons.settings),
             onPressed: () async {
-              Navigator.of(context).push<void>(SettingsPage.route());
+              await Navigator.of(context).push<void>(SettingsPage.route());
+              context.read<WeatherCubit>().refreshUnits();
             },
           ),
         ],

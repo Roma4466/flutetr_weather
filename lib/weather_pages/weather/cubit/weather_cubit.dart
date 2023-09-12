@@ -17,12 +17,6 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
 
   final WeatherRepository _weatherRepository;
 
-  final _temperatureUnitsController =
-      StreamController<TemperatureUnits>.broadcast();
-
-  Stream<TemperatureUnits> get temperatureUnitsStream =>
-      _temperatureUnitsController.stream;
-
   Future<void> setWeather(Weather weather) async {
     final units = state.temperatureUnits;
     emit(
@@ -53,6 +47,7 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
 
       emit(
         state.copyWith(
+          status: WeatherStatus.success,
           temperatureUnits: units,
           weather: weather.copyWith(
               temperature: Temperature(
@@ -96,15 +91,13 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
     }
   }
 
-  void toggleUnits(bool isFahrenheit) {
+  void toggleUnits(bool isFahrenheit) async {
     final units =
         isFahrenheit ? TemperatureUnits.fahrenheit : TemperatureUnits.celsius;
-
     if (!state.status.isSuccess) {
       emit(state.copyWith(temperatureUnits: units));
       return;
     }
-
     final weather = state.weather;
     emit(
       state.copyWith(
@@ -118,9 +111,26 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
         )),
       ),
     );
+  }
 
-    _temperatureUnitsController.stream.first;
-    _temperatureUnitsController.add(units);
+  void refreshUnits() {
+    if (!state.status.isSuccess) {
+      emit(state.copyWith(temperatureUnits: state.temperatureUnits));
+      return;
+    }
+    final weather = state.weather;
+    emit(
+      state.copyWith(
+        temperatureUnits: state.temperatureUnits,
+        weather: weather.copyWith(
+            temperature: Temperature(
+          value: weather.temperature.value + 1,
+          minValue: weather.temperature.minValue,
+          maxValue: weather.temperature.maxValue,
+          feelsLike: weather.temperature.feelsLike,
+        )),
+      ),
+    );
   }
 
   @override
