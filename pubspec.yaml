@@ -24,11 +24,13 @@ dependencies:
     path: packages/db
   weather_animation: ^0.0.2
   flutter_typeahead: ^4.6.2
-  intl: ^0.18.1
+  intl: any
   google_maps_flutter: ^2.5.0
   geolocator: ^10.0.1
   geocoding: ^2.1.0
   shared_preferences: ^2.2.1
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   bloc_test: ^9.1.0
@@ -39,4 +41,5 @@ dev_dependencies:
   mocktail: ^1.0.0
 
 flutter:
+  generate: true
   uses-material-design: true
