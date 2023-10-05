@@ -1,6 +1,20 @@
-part of 'maps_bloc.dart';
+part of 'maps_cubit.dart';
 
-@immutable
-abstract class MapsState {}
+@JsonSerializable()
+final class MapsState extends Equatable {
+  MapsState({
+    required this.latitude,
+    required this.longitude,
+  });
 
-class MapsInitial extends MapsState {}
+  final double latitude;
+  final double longitude;
+
+  @override
+  List<Object?> get props => [latitude, longitude];
+
+  Map<String, dynamic> toJson() => _$MapsStateToJson(this);
+
+  factory MapsState.fromJson(Map<String, dynamic> json) =>
+      _$MapsStateFromJson(json);
+}

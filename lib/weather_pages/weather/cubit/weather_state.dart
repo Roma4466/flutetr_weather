@@ -24,29 +24,27 @@ final class WeatherState extends Equatable {
     this.errorMessage = 'Something went wrong',
   }) : weather = weather ?? Weather.empty;
 
-  factory WeatherState.fromJson(Map<String, dynamic> json) =>
-      _$WeatherStateFromJson(json);
-
   final WeatherStatus status;
   final Weather weather;
   final TemperatureUnits temperatureUnits;
   final String errorMessage;
 
-  WeatherState copyWith({
-    WeatherStatus? status,
-    TemperatureUnits? temperatureUnits,
-    Weather? weather,
-    String? errorMessage
-  }) {
+  WeatherState copyWith(
+      {WeatherStatus? status,
+      TemperatureUnits? temperatureUnits,
+      Weather? weather,
+      String? errorMessage}) {
     return WeatherState(
-      status: status ?? this.status,
-      temperatureUnits: temperatureUnits ?? this.temperatureUnits,
-      weather: weather ?? this.weather,
-      errorMessage: errorMessage ?? this.errorMessage
-    );
+        status: status ?? this.status,
+        temperatureUnits: temperatureUnits ?? this.temperatureUnits,
+        weather: weather ?? this.weather,
+        errorMessage: errorMessage ?? this.errorMessage);
   }
 
   Map<String, dynamic> toJson() => _$WeatherStateToJson(this);
+
+  factory WeatherState.fromJson(Map<String, dynamic> json) =>
+      _$WeatherStateFromJson(json);
 
   @override
   List<Object?> get props => [status, temperatureUnits, weather, errorMessage];
